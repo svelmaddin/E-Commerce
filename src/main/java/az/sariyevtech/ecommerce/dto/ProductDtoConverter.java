@@ -25,6 +25,18 @@ public class ProductDtoConverter {
                 .build();
     }
 
+    public ProductModel convertToModel(ProductDto dto) {
+        return ProductModel.builder()
+                .name(dto.getName())
+                .price(dto.getPrice())
+                .category(dto.getCategory())
+                .createDate(dto.getCreateDate())
+                .active(dto.isActive())
+                .store(storeConvertToModel(dto.getStore()))
+                .productDescription(productDescDtoConvertToModel(dto.getProductDesc()))
+                .build();
+    }
+
     //storeName , name ,details, price , star
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
@@ -47,6 +59,12 @@ public class ProductDtoConverter {
                 .build();
     }
 
+    private StoreModel storeConvertToModel(StoreModelDto dto) {
+        return StoreModel.builder()
+                .name(dto.getName())
+                .build();
+    }
+
     private ProductDescDto productDescDtoConvert(ProductDescription from) {
         return new ProductDescDto(
                 from.getId(),
@@ -56,6 +74,15 @@ public class ProductDtoConverter {
                 from.getProductStock(),
                 from.getProductSize()
         );
+    }
+
+    private ProductDescription productDescDtoConvertToModel(ProductDescDto dto) {
+        return ProductDescription.builder()
+                .color(dto.getColor())
+                .material(dto.getMaterial())
+                .description(dto.getDescription())
+                .productSize(dto.getProductSize())
+                .build();
     }
 
     private ProductReviewModelDto reviewModelDtoConvert(ProductReviewModel from) {

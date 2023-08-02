@@ -1,8 +1,20 @@
 package az.sariyevtech.ecommerce.repository;
 
 import az.sariyevtech.ecommerce.model.product.ProductModel;
-import lombok.Lombok;
+import az.sariyevtech.ecommerce.model.store.StoreModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-public interface ProductRepository extends JpaRepository<ProductModel , Long> {
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<ProductModel, Long> {
+    List<ProductModel> findAllByActive(boolean active);
+
+    List<ProductModel> findAllByStoreId(Long storeId);
+
+    ProductModel findByStoreId(Long storeId);
+    @Modifying
+    @Query("DELETE from ProductModel c WHERE c.store=:user AND c.id=:productId")
+    void deleteProductEntityByStore(Long productId, StoreModel user);
 }

@@ -11,12 +11,12 @@ import java.util.List;
 public class ProductDto {
     private Long id;
     private String name;
-    private double price;
+    private Double price;
     private CategoryModel category;
-    private LocalDate createDate;
+    private final LocalDate createDate;
     private boolean active;
     private StoreModelDto store;
     private ProductDescDto productDesc;
-    private List<ProductReviewModelDto> productReview;
+    private final List<ProductReviewModelDto> productReview;
 
 }

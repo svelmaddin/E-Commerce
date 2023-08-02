@@ -16,7 +16,7 @@ public class ProductDescription {
     private String color;
     private String material;
     private String description;
-    private int productStock;
+    private Integer productStock;
     @Enumerated(EnumType.STRING)
     private SizeModel productSize;
 
