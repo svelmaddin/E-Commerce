@@ -4,17 +4,21 @@ import az.sariyevtech.ecommerce.dto.converter.ProductConverter;
 import az.sariyevtech.ecommerce.dto.ProductDto;
 import az.sariyevtech.ecommerce.dto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
+import az.sariyevtech.ecommerce.exception.ProductNotFoundException;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static az.sariyevtech.ecommerce.util.ErrorMessages.PRODUCT_NOT_FOUND;
 
 
 @Service
@@ -42,7 +46,10 @@ public class ProductService {
 
     //forUsers and salesManager
     public ProductDto viewProduct(Long id) {
-        ProductModel product = repository.findByIdAndActive(id, false);
+        ProductModel product = repository.findById(id).orElseThrow();
+        if (!product.isActive()) {
+            throw new ProductNotFoundException(PRODUCT_NOT_FOUND + id);
+        }
         return converter.convert(product);
     }
 
@@ -53,32 +60,32 @@ public class ProductService {
     }
 
     //for salesManager
-    public ProductDto updateProduct(Long productId, ProductDto product) {
-        ProductModel fromDb = repository.findById(productId).orElseThrow();
+    public ProductDto updateProduct(Long productId, ProductDto dto) {
+        ProductModel fromDb = repository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + productId));
         ProductDescription description = fromDb.getProductDescription();
-        if (product.getName() != null
-                && !product.getName().equals(fromDb.getName())) {
-            fromDb.setName(product.getName());
+        if (dto.getName() != null
+                && !dto.getName().equals(fromDb.getName())) {
+            fromDb.setName(dto.getName());
         }
-        if (product.getPrice() != null
-                && !product.getPrice().equals(fromDb.getPrice())) {
-            fromDb.setName(product.getName());
+         if (dto.getPrice() != null
+                && !dto.getPrice().equals(fromDb.getPrice())) {
+            fromDb.setPrice(dto.getPrice());
         }
-        if (product.getProductDesc().getColor() != null
-                && !product.getProductDesc().getColor().equals(description.getColor())) {
-            description.setColor(product.getProductDesc().getColor());
+         if (!dto.getProductDesc().getColor().equals(description.getColor())) {
+            description.setColor(dto.getProductDesc().getColor());
         }
-        if (product.getProductDesc().getMaterial() != null
-                && !product.getProductDesc().getMaterial().equals(description.getMaterial())) {
-            description.setMaterial(product.getProductDesc().getMaterial());
+        if (dto.getProductDesc().getMaterial() != null
+                && !dto.getProductDesc().getMaterial().equals(description.getMaterial())) {
+            description.setMaterial(dto.getProductDesc().getMaterial());
         }
-        if (product.getProductDesc().getDescription() != null
-                && !product.getProductDesc().getDescription().equals(description.getDescription())) {
-            description.setDescription(product.getProductDesc().getDescription());
+        if (dto.getProductDesc().getDescription() != null
+                && !dto.getProductDesc().getDescription().equals(description.getDescription())) {
+            description.setDescription(dto.getProductDesc().getDescription());
         }
-        if (product.getProductDesc().getProductStock() != null
-                && !product.getProductDesc().getProductStock().equals(description.getProductStock())) {
-            description.setProductStock(product.getProductDesc().getProductStock());
+        if (dto.getProductDesc().getProductStock() != null
+                && !dto.getProductDesc().getProductStock().equals(description.getProductStock())) {
+            description.setProductStock(dto.getProductDesc().getProductStock());
         }
         return converter.convert(fromDb);
     }

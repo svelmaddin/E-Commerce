@@ -10,6 +10,5 @@ public class ProductDtoList {
     private String name;
     private double price;
     private StoreDto store;
-    private ProductDescDto productDesc;
 
 }

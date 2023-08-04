@@ -25,7 +25,7 @@ public class ProductReviewModel {
     private Boolean fiveStar;
     private String reviewText;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductModel product;
 

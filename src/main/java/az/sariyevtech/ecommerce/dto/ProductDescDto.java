@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ProductDescDto {
-    private Long id;
+//    private Long id;
     private String color;
     private String material;
     private String description;

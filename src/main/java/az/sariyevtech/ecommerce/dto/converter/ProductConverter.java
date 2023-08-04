@@ -43,12 +43,10 @@ public class ProductConverter {
         return ProductDtoList.builder()
                 .id(fromDb.getId())
                 .store(StoreDto.builder()
+                        .id(fromDb.getStore().getId())
                         .name(fromDb.getStore().getName())
                         .build())
                 .name(fromDb.getName())
-                .productDesc(ProductDescDto.builder()
-                        .description(fromDb.getProductDescription().getDescription())
-                        .build())
                 .price(fromDb.getPrice())
                 .build();
     }
@@ -68,7 +66,7 @@ public class ProductConverter {
 
     public ProductDescDto productDescDtoConvert(ProductDescription from) {
         return ProductDescDto.builder()
-                .id(from.getId())
+//                .id(from.getId())
                 .color(from.getColor())
                 .material(from.getMaterial())
                 .description(from.getDescription())

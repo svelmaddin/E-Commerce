@@ -26,12 +26,12 @@ public class ProductModel {
     @CreationTimestamp
     private LocalDate createDate;
     private boolean active;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreModel store;
-    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "product")
+    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "product" , fetch = FetchType.EAGER)
     private ProductDescription productDescription;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.LAZY)
     private List<ProductReviewModel> productReview;
 
 }

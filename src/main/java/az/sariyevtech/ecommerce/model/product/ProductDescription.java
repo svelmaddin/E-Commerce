@@ -20,7 +20,7 @@ public class ProductDescription {
     @Enumerated(EnumType.STRING)
     private SizeModel productSize;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductModel product;
 
