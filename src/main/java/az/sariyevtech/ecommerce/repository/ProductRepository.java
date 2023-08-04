@@ -8,11 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
-    List<ProductModel> findAllByActive(boolean active);
+    Optional<List<ProductModel>> findAllByActive(boolean active);
+
     List<ProductModel> findAllByStoreId(Long storeId);
+
     @Modifying
     @Query("DELETE from ProductModel c WHERE c.store=:user AND c.id=:productId")
     void deleteProductEntityByStore(Long productId, StoreModel user);

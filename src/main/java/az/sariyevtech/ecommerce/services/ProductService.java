@@ -12,14 +12,16 @@ import az.sariyevtech.ecommerce.repository.ProductRepository;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static az.sariyevtech.ecommerce.util.ErrorMessages.PRODUCT_NOT_FOUND;
+import static az.sariyevtech.ecommerce.util.ErrorMessages.*;
 
 
 @Service
@@ -41,15 +43,18 @@ public class ProductService {
 
     //forUsers and salesManager
     public List<ProductDtoList> getAllProducts() {
-        return repository.findAllByActive(true)
-                .stream().map(converter::convertForList).collect(Collectors.toList());
+        List<ProductModel> product = repository.findAllByActive(true)
+                .orElseThrow(() -> new ProductNotFoundException(NOT_FOUND_ACTIVE_PRODUCTS));
+        return product.stream()
+                .map(converter::convertForList).collect(Collectors.toList());
     }
 
     //forUsers and salesManager
     public ProductDto viewProduct(Long id) {
-        ProductModel product = repository.findById(id).orElseThrow();
+        ProductModel product = repository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         if (!product.isActive()) {
-            throw new ProductNotFoundException(PRODUCT_NOT_FOUND + id);
+            throw new ProductNotFoundException(NOT_FOUND_ACTIVE_PRODUCT + id);
         }
         return converter.convert(product);
     }
@@ -97,6 +102,7 @@ public class ProductService {
         product.setActive(status);
         repository.save(product);
     }
+
     //forSales Manager
     public void setProductsMultipleActive(Set<Long> ids, Boolean status) {
         List<ProductModel> products = ids.stream()
