@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -45,6 +46,13 @@ public class ProductController {
     public ResponseEntity<Void> changeProductActiveStatus(@PathVariable Long id, Boolean status) {
         productService.setProductActiveStatus(id, status);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/editStatus/multipleChoose")
+    public ResponseEntity<String> setProductsMultipleActive(@RequestBody Set<Long> ids,
+                                                            @RequestBody Boolean status) {
+        productService.setProductsMultipleActive(ids, status);
+        return ResponseEntity.ok("Products' active status updated successfully.");
     }
 
     @PostMapping("/createProduct")

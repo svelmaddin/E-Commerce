@@ -11,11 +11,12 @@ import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static az.sariyevtech.ecommerce.util.ErrorMessages.PRODUCT_NOT_FOUND;
@@ -68,11 +69,11 @@ public class ProductService {
                 && !dto.getName().equals(fromDb.getName())) {
             fromDb.setName(dto.getName());
         }
-         if (dto.getPrice() != null
+        if (dto.getPrice() != null
                 && !dto.getPrice().equals(fromDb.getPrice())) {
             fromDb.setPrice(dto.getPrice());
         }
-         if (!dto.getProductDesc().getColor().equals(description.getColor())) {
+        if (!dto.getProductDesc().getColor().equals(description.getColor())) {
             description.setColor(dto.getProductDesc().getColor());
         }
         if (dto.getProductDesc().getMaterial() != null
@@ -95,6 +96,19 @@ public class ProductService {
         ProductModel product = repository.findById(id).orElseThrow();
         product.setActive(status);
         repository.save(product);
+    }
+    //forSales Manager
+    public void setProductsMultipleActive(Set<Long> ids, Boolean status) {
+        List<ProductModel> products = ids.stream()
+                .map(id -> {
+                    ProductModel product = repository.findById(id).orElse(null);
+                    if (product != null) {
+                        product.setActive(status);
+                    }
+                    return product;
+                })
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     //forSales Manager
