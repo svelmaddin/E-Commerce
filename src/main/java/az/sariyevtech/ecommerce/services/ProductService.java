@@ -48,7 +48,7 @@ public class ProductService {
 
     //for salesManager
     public List<ProductDtoList> getStoreProducts() {
-        return repository.findAllByStoreId(1L)
+        return repository.findAllByStoreId(tokenResponse.getUserId())
                 .stream().map(converter::convertForList).collect(Collectors.toList());
     }
 

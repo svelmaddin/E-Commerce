@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ProductDtoList {
-    //storeName , name ,details, price , star
     private Long id;
     private String name;
     private double price;

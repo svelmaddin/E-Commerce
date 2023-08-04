@@ -39,7 +39,6 @@ public class ProductConverter {
                 .build();
     }
 
-    //storeName , name ,details, price , star
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
                 .id(fromDb.getId())

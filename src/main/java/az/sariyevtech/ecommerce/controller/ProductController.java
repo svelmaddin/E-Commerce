@@ -3,7 +3,6 @@ package az.sariyevtech.ecommerce.controller;
 import az.sariyevtech.ecommerce.dto.ProductDto;
 import az.sariyevtech.ecommerce.dto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
-import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
