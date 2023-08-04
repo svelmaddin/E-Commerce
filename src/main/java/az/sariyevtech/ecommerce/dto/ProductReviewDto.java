@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ProductReviewModelDto {
+public class ProductReviewDto {
     private Long id;
     private Boolean oneStar;
     private Boolean twoStar;

@@ -2,6 +2,8 @@ package az.sariyevtech.ecommerce.controller;
 
 import az.sariyevtech.ecommerce.dto.ProductDto;
 import az.sariyevtech.ecommerce.dto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
+import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,7 @@ public class ProductController {
 
     @GetMapping("/{Id}")
     public ResponseEntity<ProductDto> findById(@PathVariable Long Id) {
-        var product = productService.viewProduct(Id);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(productService.viewProduct(Id));
     }
 
     @GetMapping("/userProducts")
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<Void> createProduct(@RequestBody ProductDto dto) {
+    public ResponseEntity<Void> createProduct(@RequestBody ProductCreateRequest dto) {
         productService.createProduct(dto);
         return ResponseEntity.ok().build();
     }

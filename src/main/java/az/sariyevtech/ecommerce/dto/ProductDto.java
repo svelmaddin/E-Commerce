@@ -15,8 +15,8 @@ public class ProductDto {
     private CategoryModel category;
     private final LocalDate createDate;
     private boolean active;
-    private StoreModelDto store;
-    private ProductDescDto productDesc;
-    private final List<ProductReviewModelDto> productReview;
+    private StoreDto store;
+    public ProductDescDto productDesc;
+    public final List<ProductReviewDto> productReview;
 
 }

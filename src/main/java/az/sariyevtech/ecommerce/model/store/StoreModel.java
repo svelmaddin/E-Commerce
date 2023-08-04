@@ -18,12 +18,13 @@ import java.util.List;
 public class StoreModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id = 1L;
     private String name;
 
-    @OneToMany(mappedBy = "store" ,cascade = CascadeType.ALL)
-    private List<ProductModel> product =new ArrayList<>();
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<ProductModel> product = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     private StoreDetails storeDetails;
+    private Long userId;
 
 }

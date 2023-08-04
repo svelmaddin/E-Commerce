@@ -1,12 +1,14 @@
 package az.sariyevtech.ecommerce.services;
 
+import az.sariyevtech.ecommerce.dto.converter.ProductConverter;
 import az.sariyevtech.ecommerce.dto.ProductDto;
-import az.sariyevtech.ecommerce.dto.ProductDtoConverter;
 import az.sariyevtech.ecommerce.dto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
+import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +20,16 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    private final ProductDtoConverter converter;
+    private final StoreRepository storeRepository;
+    private final ProductConverter converter;
     private final TokenResponse tokenResponse;
 
-    public ProductService(ProductRepository repository, ProductDtoConverter converter,
+    public ProductService(ProductRepository repository,
+                          StoreRepository storeRepository,
+                          ProductConverter converter,
                           TokenResponse tokenResponse) {
         this.repository = repository;
+        this.storeRepository = storeRepository;
         this.converter = converter;
         this.tokenResponse = tokenResponse;
     }
@@ -36,7 +42,8 @@ public class ProductService {
 
     //forUsers and salesManager
     public ProductDto viewProduct(Long id) {
-        return converter.convert(repository.findById(id).orElseThrow());
+        ProductModel product = repository.findByIdAndActive(id, false);
+        return converter.convert(product);
     }
 
     //for salesManager
@@ -46,8 +53,7 @@ public class ProductService {
     }
 
     //for salesManager
-    public ProductDto updateProduct(Long productId,ProductDto product) {
-//        ProductModel fromDb = repository.findByStoreId(tokenResponse.getUserId());
+    public ProductDto updateProduct(Long productId, ProductDto product) {
         ProductModel fromDb = repository.findById(productId).orElseThrow();
         ProductDescription description = fromDb.getProductDescription();
         if (product.getName() != null
@@ -85,12 +91,12 @@ public class ProductService {
     }
 
     //forSales Manager
-    public void createProduct(ProductDto productDto) {
-        ProductModel product = converter.convertToModel(productDto);
+    public void createProduct(ProductCreateRequest request) {
+        StoreModel store = storeRepository.findByUserId(tokenResponse.getUserId());
+        ProductModel product = converter.productCreateConvertToModel(request);
         product.setCreateDate(LocalDate.now());
         product.setActive(false);
-        var storeId = tokenResponse.getUserId();
-        product.setStore(StoreModel.builder().id(storeId).build());
+        product.setStore(store);
         repository.save(product);
     }
 
