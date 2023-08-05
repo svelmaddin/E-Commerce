@@ -10,16 +10,13 @@ import static az.sariyevtech.ecommerce.util.ErrorMessages.USER_STORE_NOT_FOUND;
 @Service
 public class ValidationService {
     private final StoreService storeService;
-    private final TokenResponse tokenResponse;
 
-    public ValidationService(StoreService storeService, TokenResponse tokenResponse) {
+    public ValidationService(StoreService storeService) {
         this.storeService = storeService;
-        this.tokenResponse = tokenResponse;
     }
 
-    public void checkUserStoreValid() {
-        var currentUser = tokenResponse.getUserId();
-        if (storeService.getCurrentUserStore() == null){
+    protected void checkUserStoreValid() {
+        if (storeService.getCurrentUserStore() == null) {
             throw new StoreNotFoundException(USER_STORE_NOT_FOUND);
         }
     }

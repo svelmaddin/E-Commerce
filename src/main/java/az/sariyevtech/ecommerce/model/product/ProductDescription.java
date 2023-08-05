@@ -22,7 +22,7 @@ public class ProductDescription {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    private ProductModel product;
+    private ProductModel products;
 
 
 }

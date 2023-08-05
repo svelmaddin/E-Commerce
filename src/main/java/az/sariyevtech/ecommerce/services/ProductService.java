@@ -123,10 +123,31 @@ public class ProductService {
     //forSales Manager
     public void createProduct(ProductCreateRequest request) {
         validationService.checkUserStoreValid();
-        ProductModel product = converter.productCreateConvertToModel(request);
+        ProductModel product = converter.convertToModel(request);
+        ProductDescription description = converter.productDescDtoConvertToModel(request.getProductDesc());
+        product.setStore(storeService.getCurrentUserStore());
+        product.setProductDescription(description);
+        description.setProducts(product);
+        repository.save(product);
+    }
+
+    public void createProduct2(ProductCreateRequest request) {
+        validationService.checkUserStoreValid();
+        ProductModel product = new ProductModel();
+        ProductDescription description = new ProductDescription();
+        description.setProductStock(request.getProductDesc().getProductStock());
+        description.setDescription(request.getProductDesc().getDescription());
+        description.setMaterial(request.getProductDesc().getMaterial());
+        description.setProductSize(request.getProductDesc().getProductSize());
+        description.setColor(request.getProductDesc().getColor());
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setCategory(request.getCategory());
         product.setCreateDate(LocalDate.now());
         product.setActive(false);
         product.setStore(storeService.getCurrentUserStore());
+        product.setProductDescription(description);
+        description.setProducts(product);
         repository.save(product);
     }
 

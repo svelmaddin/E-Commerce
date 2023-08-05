@@ -8,6 +8,7 @@ import az.sariyevtech.ecommerce.model.product.ProductReviewModel;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +28,13 @@ public class ProductConverter {
                 .build();
     }
 
-    public ProductModel convertToModel(ProductDto dto) {
+    public ProductModel convertToModel(ProductCreateRequest dto) {
         return ProductModel.builder()
                 .name(dto.getName())
                 .price(dto.getPrice())
                 .category(dto.getCategory())
-                .createDate(dto.getCreateDate())
-                .active(dto.isActive())
-                .store(storeConvertToModel(dto.getStore()))
-                .productDescription(productDescDtoConvertToModel(dto.getProductDesc()))
+                .active(false)
+                .createDate(LocalDate.now())
                 .build();
     }
 
