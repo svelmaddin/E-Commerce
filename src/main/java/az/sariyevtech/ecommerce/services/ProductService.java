@@ -10,7 +10,6 @@ import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
-import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +28,19 @@ public class ProductService {
     private final ProductConverter converter;
     private final StoreService storeService;
     private final TokenResponse tokenResponse;
+    private final ValidationService validationService;
 
 
     public ProductService(ProductRepository repository,
                           ProductConverter converter,
                           StoreService storeService,
-                          TokenResponse tokenResponse) {
+                          TokenResponse tokenResponse,
+                          ValidationService validationService) {
         this.repository = repository;
         this.converter = converter;
         this.storeService = storeService;
         this.tokenResponse = tokenResponse;
+        this.validationService = validationService;
     }
 
     //forUsers and salesManager
@@ -120,6 +122,7 @@ public class ProductService {
 
     //forSales Manager
     public void createProduct(ProductCreateRequest request) {
+        validationService.checkUserStoreValid();
         ProductModel product = converter.productCreateConvertToModel(request);
         product.setCreateDate(LocalDate.now());
         product.setActive(false);

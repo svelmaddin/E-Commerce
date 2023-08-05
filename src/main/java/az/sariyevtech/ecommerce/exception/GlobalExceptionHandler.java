@@ -21,4 +21,13 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Product not Found !", detail);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<?> storeNotFound(StoreNotFoundException storeNotFoundException) {
+        List<String> detail = new ArrayList<>();
+        detail.add(storeNotFoundException.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse("Store not Found !", detail);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 }

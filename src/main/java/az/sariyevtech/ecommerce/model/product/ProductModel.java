@@ -31,8 +31,8 @@ public class ProductModel {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreModel store;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
-    private ProductDescription productDescription = new ProductDescription();
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product", orphanRemoval = true)
+    private ProductDescription productDescription;
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<ProductReviewModel> productReview;
 

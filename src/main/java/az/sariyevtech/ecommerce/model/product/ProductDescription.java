@@ -21,7 +21,7 @@ public class ProductDescription {
     private SizeModel productSize;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_id")
     private ProductModel product;
 
 
