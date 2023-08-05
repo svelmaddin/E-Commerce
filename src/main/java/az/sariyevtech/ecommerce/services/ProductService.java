@@ -131,30 +131,13 @@ public class ProductService {
         repository.save(product);
     }
 
-    public void createProduct2(ProductCreateRequest request) {
-        validationService.checkUserStoreValid();
-        ProductModel product = new ProductModel();
-        ProductDescription description = new ProductDescription();
-        description.setProductStock(request.getProductDesc().getProductStock());
-        description.setDescription(request.getProductDesc().getDescription());
-        description.setMaterial(request.getProductDesc().getMaterial());
-        description.setProductSize(request.getProductDesc().getProductSize());
-        description.setColor(request.getProductDesc().getColor());
-        product.setName(request.getName());
-        product.setPrice(request.getPrice());
-        product.setCategory(request.getCategory());
-        product.setCreateDate(LocalDate.now());
-        product.setActive(false);
-        product.setStore(storeService.getCurrentUserStore());
-        product.setProductDescription(description);
-        description.setProducts(product);
-        repository.save(product);
-    }
-
     //forSales Manager
     public void deleteProduct(Long id) {
-        var user = StoreModel.builder().id(tokenResponse.getUserId()).build();
-        repository.deleteProductEntityByStore(id, user);
+        validationService.checkUserStoreValid();
+        var user = storeService.getCurrentUserStore();
+        ProductModel product = repository.findByIdAndStore(id, user)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
+        repository.delete(product);
     }
 
     private ProductDto fromDbToDto(ProductModel product) {

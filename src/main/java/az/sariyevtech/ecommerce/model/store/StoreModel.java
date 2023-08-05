@@ -21,7 +21,7 @@ public class StoreModel {
     private Long id = 1L;
     private String name;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "store",fetch = FetchType.EAGER)
     private List<ProductModel> product = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private StoreDetails storeDetails;

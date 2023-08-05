@@ -28,7 +28,7 @@ public class ProductModel {
     @CreationTimestamp
     private LocalDate createDate;
     private boolean active;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreModel store;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "products", orphanRemoval = true)
