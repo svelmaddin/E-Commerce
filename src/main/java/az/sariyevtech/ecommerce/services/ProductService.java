@@ -107,20 +107,6 @@ public class ProductService {
     }
 
     //forSales Manager
-    public void setProductsMultipleActive(Set<Long> ids, Boolean status) {
-        List<ProductModel> products = ids.stream()
-                .map(id -> {
-                    ProductModel product = repository.findById(id).orElse(null);
-                    if (product != null) {
-                        product.setActive(status);
-                    }
-                    return product;
-                })
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    //forSales Manager
     public void createProduct(ProductCreateRequest request) {
         validationService.checkUserStoreValid();
         ProductModel product = converter.convertToModel(request);

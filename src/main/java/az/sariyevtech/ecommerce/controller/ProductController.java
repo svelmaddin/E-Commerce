@@ -49,13 +49,6 @@ public class ProductController {
         return ResponseEntity.ok("Products active status updated successfully.");
     }
 
-    @PostMapping("/editStatus/multipleChoose")
-    public ResponseEntity<String> setProductsMultipleActive(@RequestBody Set<Long> ids,
-                                                            @RequestBody Boolean status) {
-        productService.setProductsMultipleActive(ids, status);
-        return ResponseEntity.ok("Products' active status updated successfully.");
-    }
-
     @PostMapping("/createProduct")
     public ResponseEntity<Void> createProduct(@RequestBody ProductCreateRequest dto) {
         productService.createProduct(dto);

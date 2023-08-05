@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProductConverter {
+    //toDto
     public ProductDto convert(ProductModel fromDb) {
         return ProductDto.builder()
                 .id(fromDb.getId())
@@ -28,6 +29,7 @@ public class ProductConverter {
                 .build();
     }
 
+    //toModel
     public ProductModel convertToModel(ProductCreateRequest dto) {
         return ProductModel.builder()
                 .name(dto.getName())
@@ -38,6 +40,7 @@ public class ProductConverter {
                 .build();
     }
 
+    //toDtoList
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
                 .id(fromDb.getId())
@@ -51,6 +54,7 @@ public class ProductConverter {
                 .build();
     }
 
+    //toDto
     private StoreDto storeConvert(StoreModel fromDb) {
         return StoreDto.builder()
                 .id(fromDb.getId())
@@ -58,15 +62,9 @@ public class ProductConverter {
                 .build();
     }
 
-    private StoreModel storeConvertToModel(StoreDto dto) {
-        return StoreModel.builder()
-                .name(dto.getName())
-                .build();
-    }
-
+    //toDto
     public ProductDescDto productDescDtoConvert(ProductDescription from) {
         return ProductDescDto.builder()
-//                .id(from.getId())
                 .color(from.getColor())
                 .material(from.getMaterial())
                 .description(from.getDescription())
@@ -75,6 +73,7 @@ public class ProductConverter {
                 .build();
     }
 
+    //toModel
     public ProductDescription productDescDtoConvertToModel(ProductDescDto dto) {
         return ProductDescription.builder()
                 .color(dto.getColor())
@@ -85,6 +84,7 @@ public class ProductConverter {
                 .build();
     }
 
+    //toDto
     protected ProductReviewDto reviewModelDtoConvert(ProductReviewModel from) {
         return ProductReviewDto.builder()
                 .id(from.getId())
@@ -97,19 +97,11 @@ public class ProductConverter {
     }
 
 
+    //toDtoList
     public List<ProductReviewDto> reviewListConvert(List<ProductReviewModel> from) {
         return from.stream()
                 .map(this::reviewModelDtoConvert)
                 .collect(Collectors.toList());
-    }
-
-    public ProductModel productCreateConvertToModel(ProductCreateRequest request) {
-        return ProductModel.builder()
-                .name(request.getName())
-                .price(request.getPrice())
-                .category(request.getCategory())
-                .productDescription(productDescDtoConvertToModel(request.getProductDesc()))
-                .build();
     }
 
 }
