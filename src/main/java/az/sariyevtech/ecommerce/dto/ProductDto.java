@@ -16,7 +16,7 @@ public class ProductDto {
     private final LocalDate createDate;
     private boolean active;
     private StoreDto store;
-    public ProductDescDto productDesc;
-    public final List<ProductReviewDto> productReview;
+    private ProductDescDto productDesc;
+    private final List<ProductReviewDto> productReview;
 
 }

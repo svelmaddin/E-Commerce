@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.services;
 
+import az.sariyevtech.ecommerce.dto.StoreDto;
 import az.sariyevtech.ecommerce.dto.converter.ProductConverter;
 import az.sariyevtech.ecommerce.dto.ProductDto;
 import az.sariyevtech.ecommerce.dto.ProductDtoList;
@@ -12,7 +13,6 @@ import az.sariyevtech.ecommerce.repository.ProductRepository;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +30,7 @@ public class ProductService {
     private final StoreRepository storeRepository;
     private final ProductConverter converter;
     private final TokenResponse tokenResponse;
+
 
     public ProductService(ProductRepository repository,
                           StoreRepository storeRepository,
@@ -53,15 +54,15 @@ public class ProductService {
     public ProductDto viewProduct(Long id) {
         ProductModel product = repository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
-        if (!product.isActive()) {
-            throw new ProductNotFoundException(NOT_FOUND_ACTIVE_PRODUCT + id);
+        if (product.getProductDescription() != null) {
+            return converter.convert(product);
         }
-        return converter.convert(product);
+        return fromDbToDto(product);
     }
 
     //for salesManager
     public List<ProductDtoList> getStoreProducts() {
-        return repository.findAllByStoreId(tokenResponse.getUserId())
+        return repository.findByStoreUserId(tokenResponse.getUserId())
                 .stream().map(converter::convertForList).collect(Collectors.toList());
     }
 
@@ -98,7 +99,8 @@ public class ProductService {
 
     //forSales Manager
     public void setProductActiveStatus(Long id, Boolean status) {
-        ProductModel product = repository.findById(id).orElseThrow();
+        ProductModel product = repository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setActive(status);
         repository.save(product);
     }
@@ -131,5 +133,17 @@ public class ProductService {
     public void deleteProduct(Long id) {
         var user = StoreModel.builder().id(tokenResponse.getUserId()).build();
         repository.deleteProductEntityByStore(id, user);
+    }
+
+    private ProductDto fromDbToDto(ProductModel product) {
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .category(product.getCategory())
+                .createDate(product.getCreateDate())
+                .store(StoreDto.builder().name(product.getStore().getName()).build())
+                .productReview(converter.reviewListConvert(product.getProductReview()))
+                .build();
     }
 }

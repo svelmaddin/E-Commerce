@@ -4,7 +4,9 @@ import az.sariyevtech.ecommerce.model.store.StoreModel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,12 +28,12 @@ public class ProductModel {
     @CreationTimestamp
     private LocalDate createDate;
     private boolean active;
-    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreModel store;
-    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "product" , fetch = FetchType.EAGER)
-    private ProductDescription productDescription;
-    @OneToMany(mappedBy = "product" ,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+    private ProductDescription productDescription = new ProductDescription();
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<ProductReviewModel> productReview;
 
 }

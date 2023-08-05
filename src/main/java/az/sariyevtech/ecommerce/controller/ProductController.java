@@ -43,9 +43,10 @@ public class ProductController {
     }
 
     @PatchMapping("/editStatus/{id}")
-    public ResponseEntity<Void> changeProductActiveStatus(@PathVariable Long id, Boolean status) {
+    public ResponseEntity<String> changeProductActiveStatus(@PathVariable Long id,
+                                                          @RequestParam Boolean status) {
         productService.setProductActiveStatus(id, status);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Products active status updated successfully.");
     }
 
     @PostMapping("/editStatus/multipleChoose")

@@ -9,6 +9,7 @@ public class ProductDtoList {
     private Long id;
     private String name;
     private double price;
+    private boolean active;
     private StoreDto store;
 
 }

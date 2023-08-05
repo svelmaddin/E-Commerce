@@ -42,12 +42,13 @@ public class ProductConverter {
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
                 .id(fromDb.getId())
+                .name(fromDb.getName())
+                .price(fromDb.getPrice())
+                .active(fromDb.isActive())
                 .store(StoreDto.builder()
                         .id(fromDb.getStore().getId())
                         .name(fromDb.getStore().getName())
                         .build())
-                .name(fromDb.getName())
-                .price(fromDb.getPrice())
                 .build();
     }
 
@@ -97,7 +98,7 @@ public class ProductConverter {
     }
 
 
-    private List<ProductReviewDto> reviewListConvert(List<ProductReviewModel> from) {
+    public List<ProductReviewDto> reviewListConvert(List<ProductReviewModel> from) {
         return from.stream()
                 .map(this::reviewModelDtoConvert)
                 .collect(Collectors.toList());
