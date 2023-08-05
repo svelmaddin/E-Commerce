@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,18 +26,18 @@ import static az.sariyevtech.ecommerce.util.ErrorMessages.*;
 @Service
 public class ProductService {
     private final ProductRepository repository;
-    private final StoreRepository storeRepository;
     private final ProductConverter converter;
+    private final StoreService storeService;
     private final TokenResponse tokenResponse;
 
 
     public ProductService(ProductRepository repository,
-                          StoreRepository storeRepository,
                           ProductConverter converter,
+                          StoreService storeService,
                           TokenResponse tokenResponse) {
         this.repository = repository;
-        this.storeRepository = storeRepository;
         this.converter = converter;
+        this.storeService = storeService;
         this.tokenResponse = tokenResponse;
     }
 
@@ -99,7 +98,7 @@ public class ProductService {
 
     //forSales Manager
     public void setProductActiveStatus(Long id, Boolean status) {
-        ProductModel product = repository.findById(id)
+        ProductModel product = repository.findByIdAndStore(id, storeService.getCurrentUserStore())
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setActive(status);
         repository.save(product);
@@ -121,11 +120,10 @@ public class ProductService {
 
     //forSales Manager
     public void createProduct(ProductCreateRequest request) {
-        StoreModel store = storeRepository.findByUserId(tokenResponse.getUserId());
         ProductModel product = converter.productCreateConvertToModel(request);
         product.setCreateDate(LocalDate.now());
         product.setActive(false);
-        product.setStore(store);
+        product.setStore(storeService.getCurrentUserStore());
         repository.save(product);
     }
 

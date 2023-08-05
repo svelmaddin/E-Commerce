@@ -14,6 +14,9 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
     Optional<List<ProductModel>> findAllByActive(boolean active);
 
+    @Query("SELECT p FROM ProductModel p where p.id=:productId AND p.store=:store")
+    Optional<ProductModel> findByIdAndStore(Long productId, StoreModel store);
+
     List<ProductModel> findAllByStoreId(Long storeId);
 
     List<ProductModel> findByStoreUserId(Long id);
