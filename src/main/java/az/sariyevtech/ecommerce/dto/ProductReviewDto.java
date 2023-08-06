@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,10 +8,10 @@ import lombok.Getter;
 @Getter
 public class ProductReviewDto {
     private Long id;
-    private Boolean oneStar;
-    private Boolean twoStar;
-    private Boolean threeStar;
-    private Boolean fourStar;
-    private Boolean fiveStar;
+    private Integer oneStar;
+    private Integer twoStar;
+    private Integer threeStar;
+    private Integer fourStar;
+    private Integer fiveStar;
     private String reviewText;
 }

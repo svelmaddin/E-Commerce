@@ -13,11 +13,11 @@ public class ProductReviewModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean oneStar;
-    private Boolean twoStar;
-    private Boolean threeStar;
-    private Boolean fourStar;
-    private Boolean fiveStar;
+    private Integer oneStar;
+    private Integer twoStar;
+    private Integer threeStar;
+    private Integer fourStar;
+    private Integer fiveStar;
     private String reviewText;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

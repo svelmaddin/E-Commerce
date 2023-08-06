@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ProductConverter {
+public class Converter {
     //toDto
     public ProductDto convert(ProductModel fromDb) {
         return ProductDto.builder()
@@ -28,7 +28,6 @@ public class ProductConverter {
                 .productReview(reviewListConvert(fromDb.getProductReview()))
                 .build();
     }
-
     //toModel
     public ProductModel convertToModel(ProductCreateRequest dto) {
         return ProductModel.builder()
@@ -39,7 +38,6 @@ public class ProductConverter {
                 .createDate(LocalDate.now())
                 .build();
     }
-
     //toDtoList
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
@@ -53,7 +51,6 @@ public class ProductConverter {
                         .build())
                 .build();
     }
-
     //toDto
     private StoreDto storeConvert(StoreModel fromDb) {
         return StoreDto.builder()
@@ -61,7 +58,6 @@ public class ProductConverter {
                 .name(fromDb.getName())
                 .build();
     }
-
     //toDto
     public ProductDescDto productDescDtoConvert(ProductDescription from) {
         return ProductDescDto.builder()
@@ -72,7 +68,6 @@ public class ProductConverter {
                 .productSize(from.getProductSize())
                 .build();
     }
-
     //toModel
     public ProductDescription productDescDtoConvertToModel(ProductDescDto dto) {
         return ProductDescription.builder()
@@ -83,7 +78,6 @@ public class ProductConverter {
                 .productStock(dto.getProductStock())
                 .build();
     }
-
     //toDto
     protected ProductReviewDto reviewModelDtoConvert(ProductReviewModel from) {
         return ProductReviewDto.builder()
@@ -95,8 +89,6 @@ public class ProductConverter {
                 .fiveStar(from.getFiveStar())
                 .build();
     }
-
-
     //toDtoList
     public List<ProductReviewDto> reviewListConvert(List<ProductReviewModel> from) {
         return from.stream()
