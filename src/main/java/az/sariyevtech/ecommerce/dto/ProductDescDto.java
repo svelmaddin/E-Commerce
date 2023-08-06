@@ -15,4 +15,10 @@ public class ProductDescDto {
     private Integer productStock;
     @Enumerated(EnumType.STRING)
     private SizeModel productSize;
+    private Integer oneStar;
+    private Integer twoStar;
+    private Integer threeStar;
+    private Integer fourStar;
+    private Integer fiveStar;
+    private String reviewText;
 }

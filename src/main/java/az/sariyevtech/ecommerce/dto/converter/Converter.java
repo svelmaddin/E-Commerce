@@ -28,6 +28,7 @@ public class Converter {
                 .productReview(reviewListConvert(fromDb.getProductReview()))
                 .build();
     }
+
     //toModel
     public ProductModel convertToModel(ProductCreateRequest dto) {
         return ProductModel.builder()
@@ -36,8 +37,10 @@ public class Converter {
                 .category(dto.getCategory())
                 .active(false)
                 .createDate(LocalDate.now())
+                .updateTime(LocalDate.now())
                 .build();
     }
+
     //toDtoList
     public ProductDtoList convertForList(ProductModel fromDb) {
         return ProductDtoList.builder()
@@ -51,6 +54,7 @@ public class Converter {
                         .build())
                 .build();
     }
+
     //toDto
     private StoreDto storeConvert(StoreModel fromDb) {
         return StoreDto.builder()
@@ -58,6 +62,7 @@ public class Converter {
                 .name(fromDb.getName())
                 .build();
     }
+
     //toDto
     public ProductDescDto productDescDtoConvert(ProductDescription from) {
         return ProductDescDto.builder()
@@ -68,6 +73,7 @@ public class Converter {
                 .productSize(from.getProductSize())
                 .build();
     }
+
     //toModel
     public ProductDescription productDescDtoConvertToModel(ProductDescDto dto) {
         return ProductDescription.builder()
@@ -78,6 +84,7 @@ public class Converter {
                 .productStock(dto.getProductStock())
                 .build();
     }
+
     //toDto
     protected ProductReviewDto reviewModelDtoConvert(ProductReviewModel from) {
         return ProductReviewDto.builder()
@@ -89,6 +96,7 @@ public class Converter {
                 .fiveStar(from.getFiveStar())
                 .build();
     }
+
     //toDtoList
     public List<ProductReviewDto> reviewListConvert(List<ProductReviewModel> from) {
         return from.stream()

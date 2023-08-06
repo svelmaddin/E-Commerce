@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,6 +26,7 @@ public class ProductModel {
     private CategoryModel category;
     @CreationTimestamp
     private LocalDate createDate;
+    private LocalDate updateTime;
     private boolean active;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")

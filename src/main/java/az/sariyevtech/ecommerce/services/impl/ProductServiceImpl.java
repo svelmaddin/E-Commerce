@@ -13,6 +13,7 @@ import az.sariyevtech.ecommerce.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,6 +97,7 @@ public class ProductServiceImpl implements ProductService {
                 && !dto.getProductDesc().getProductStock().equals(description.getProductStock())) {
             description.setProductStock(dto.getProductDesc().getProductStock());
         }
+        fromDb.setUpdateTime(LocalDate.now());
         return converter.convert(fromDb);
     }
 
@@ -105,6 +107,7 @@ public class ProductServiceImpl implements ProductService {
         ProductModel product = repository.findByIdAndStore(id, storeServiceImpl.getCurrentUserStore())
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setActive(status);
+        product.setUpdateTime(LocalDate.now());
         repository.save(product);
     }
 
