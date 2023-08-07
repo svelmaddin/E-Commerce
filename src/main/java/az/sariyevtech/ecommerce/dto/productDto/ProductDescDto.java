@@ -1,4 +1,4 @@
-package az.sariyevtech.ecommerce.dto;
+package az.sariyevtech.ecommerce.dto.productDto;
 
 import az.sariyevtech.ecommerce.model.product.SizeModel;
 import jakarta.persistence.EnumType;

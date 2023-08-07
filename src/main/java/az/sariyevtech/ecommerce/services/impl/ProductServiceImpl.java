@@ -1,9 +1,9 @@
 package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.StoreDto;
-import az.sariyevtech.ecommerce.dto.converter.Converter;
-import az.sariyevtech.ecommerce.dto.ProductDto;
-import az.sariyevtech.ecommerce.dto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.converter.ProductConverter;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
 import az.sariyevtech.ecommerce.exception.ProductNotFoundException;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
@@ -23,19 +23,19 @@ import static az.sariyevtech.ecommerce.util.ErrorMessages.*;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
-    private final Converter converter;
+    private final ProductConverter productConverter;
     private final StoreServiceImpl storeServiceImpl;
     private final TokenResponse tokenResponse;
     private final ValidationService validationService;
 
 
     public ProductServiceImpl(ProductRepository repository,
-                              Converter converter,
+                              ProductConverter productConverter,
                               StoreServiceImpl storeServiceImpl,
                               TokenResponse tokenResponse,
                               ValidationService validationService) {
         this.repository = repository;
-        this.converter = converter;
+        this.productConverter = productConverter;
         this.storeServiceImpl = storeServiceImpl;
         this.tokenResponse = tokenResponse;
         this.validationService = validationService;
@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductModel> product = repository.findAllByActive(true)
                 .orElseThrow(() -> new ProductNotFoundException(NOT_FOUND_ACTIVE_PRODUCTS));
         return product.stream()
-                .map(converter::convertForList).collect(Collectors.toList());
+                .map(productConverter::convertForList).collect(Collectors.toList());
     }
 
     //forUsers and salesManager
@@ -56,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
         ProductModel product = repository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         if (product.getProductDescription() != null) {
-            return converter.convert(product);
+            return productConverter.convert(product);
         }
         return fromDbToDto(product);
     }
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDtoList> getStoreProducts() {
         return repository.findByStoreUserId(tokenResponse.getUserId())
-                .stream().map(converter::convertForList).collect(Collectors.toList());
+                .stream().map(productConverter::convertForList).collect(Collectors.toList());
     }
 
     //for salesManager
@@ -98,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
             description.setProductStock(dto.getProductDesc().getProductStock());
         }
         fromDb.setUpdateTime(LocalDate.now());
-        return converter.convert(fromDb);
+        return productConverter.convert(fromDb);
     }
 
     //forSales Manager
@@ -115,8 +115,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void createProduct(ProductCreateRequest request) {
         validationService.checkUserStoreValid();
-        ProductModel product = converter.convertToModel(request);
-        ProductDescription description = converter.productDescDtoConvertToModel(request.getProductDesc());
+        ProductModel product = productConverter.convertToModel(request);
+        ProductDescription description = productConverter.productDescDtoConvertToModel(request.getProductDesc());
         product.setStore(storeServiceImpl.getCurrentUserStore());
         product.setProductDescription(description);
         description.setProducts(product);
@@ -141,7 +141,7 @@ public class ProductServiceImpl implements ProductService {
                 .category(product.getCategory())
                 .createDate(product.getCreateDate())
                 .store(StoreDto.builder().name(product.getStore().getName()).build())
-                .productReview(converter.reviewListConvert(product.getProductReview()))
+                .productReview(productConverter.reviewListConvert(product.getProductReview()))
                 .build();
     }
 }

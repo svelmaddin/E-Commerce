@@ -1,6 +1,10 @@
 package az.sariyevtech.ecommerce.dto.converter;
 
 import az.sariyevtech.ecommerce.dto.*;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDescDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.productDto.ProductReviewDto;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
@@ -13,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class Converter {
+public class ProductConverter {
     //toDto
     public ProductDto convert(ProductModel fromDb) {
         return ProductDto.builder()

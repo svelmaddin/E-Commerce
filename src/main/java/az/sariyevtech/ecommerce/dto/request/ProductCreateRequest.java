@@ -1,9 +1,7 @@
 package az.sariyevtech.ecommerce.dto.request;
 
-import az.sariyevtech.ecommerce.dto.ProductDescDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDescDto;
 import az.sariyevtech.ecommerce.model.product.CategoryModel;
-import az.sariyevtech.ecommerce.model.product.ProductDescription;
-import az.sariyevtech.ecommerce.model.product.ProductModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

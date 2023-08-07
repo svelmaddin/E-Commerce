@@ -1,7 +1,7 @@
 package az.sariyevtech.ecommerce.services;
 
-import az.sariyevtech.ecommerce.dto.ProductDto;
-import az.sariyevtech.ecommerce.dto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
 
 import java.util.List;

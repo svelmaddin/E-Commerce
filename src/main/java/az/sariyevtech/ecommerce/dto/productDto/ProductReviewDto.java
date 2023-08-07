@@ -1,4 +1,4 @@
-package az.sariyevtech.ecommerce.dto;
+package az.sariyevtech.ecommerce.dto.productDto;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;

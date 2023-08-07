@@ -1,7 +1,7 @@
 package az.sariyevtech.ecommerce.controller;
 
-import az.sariyevtech.ecommerce.dto.ProductDto;
-import az.sariyevtech.ecommerce.dto.ProductDtoList;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
 import az.sariyevtech.ecommerce.services.impl.ProductServiceImpl;
 import org.springframework.http.ResponseEntity;
