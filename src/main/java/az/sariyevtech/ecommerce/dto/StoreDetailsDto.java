@@ -2,9 +2,12 @@ package az.sariyevtech.ecommerce.dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
-
+@Builder
+@Getter
 public class StoreDetailsDto {
     private Long id;
     private String country;

@@ -10,6 +10,7 @@ import az.sariyevtech.ecommerce.services.StoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -39,7 +40,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<StoreDto> getAllStore() {
-        return null;
+        return storeRepository.findAll().stream()
+                .map(storeConverter::convertFromModel).collect(Collectors.toList());
     }
 
     @Override
