@@ -46,7 +46,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto getStoreById(Long storeId) {
-        return null;
+        return (StoreDto) storeRepository.findById(storeId).stream()
+                .map(storeConverter::convertFromModel);
     }
 
     @Override
