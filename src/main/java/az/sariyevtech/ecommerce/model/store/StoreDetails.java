@@ -1,12 +1,11 @@
 package az.sariyevtech.ecommerce.model.store;
 
-import az.sariyevtech.ecommerce.model.product.ProductReviewModel;
+import az.sariyevtech.ecommerce.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.repository.NoRepositoryBean;
 
 import java.time.LocalDate;
 
@@ -16,18 +15,13 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class StoreDetails extends BaseEntity {
     private String country;
     private String city;
     private String street;
     private String zipcode;
     private String address;
     private String phoneNumber;
-    private LocalDate createTime;
-    private LocalDate updateTime;
     @Lob
     @Column(length = 10485760)
     private Byte[] photo;

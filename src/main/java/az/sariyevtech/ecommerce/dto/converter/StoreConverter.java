@@ -1,17 +1,15 @@
 package az.sariyevtech.ecommerce.dto.converter;
 
-import az.sariyevtech.ecommerce.dto.StoreDetailsDto;
-import az.sariyevtech.ecommerce.dto.StoreDto;
-import az.sariyevtech.ecommerce.dto.request.CreateStoreRequest;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDetailsDto;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
+import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
 import az.sariyevtech.ecommerce.model.store.StoreDetails;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
 public class StoreConverter {
-    public StoreModel convertCreateStoreToModel(CreateStoreRequest request) {
+    public StoreModel convertCreateStoreToModel(StoreCreateRequest request) {
         var storeDetails = StoreDetails.builder()
                 .country(request.getCountry())
                 .city(request.getCity())
@@ -19,7 +17,7 @@ public class StoreConverter {
                 .zipcode(request.getZipcode())
                 .address(request.getAddress())
                 .phoneNumber(request.getPhoneNumber())
-                .createTime(LocalDate.now())
+//                (LocalDate.now())
                 .build();
         return StoreModel.builder()
                 .name(request.getName())
@@ -35,8 +33,8 @@ public class StoreConverter {
                 .zipcode(storeModel.getStoreDetails().getZipcode())
                 .address(storeModel.getStoreDetails().getAddress())
                 .phoneNumber(storeModel.getStoreDetails().getPhoneNumber())
-                .createTime(storeModel.getStoreDetails().getCreateTime())
-                .updateTime(storeModel.getStoreDetails().getUpdateTime())
+                .createTime(storeModel.getStoreDetails().getCreateAt())
+                .updateTime(storeModel.getStoreDetails().getUpdateAt())
                 .build();
         return StoreDto.builder()
                 .id(storeModel.getId())

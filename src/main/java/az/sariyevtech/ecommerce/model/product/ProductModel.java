@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.model.product;
 
+import az.sariyevtech.ecommerce.model.BaseEntity;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,17 +17,12 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "products")
-public class ProductModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductModel extends BaseEntity {
+
     private String name;
     private double price;
     @Enumerated(EnumType.STRING)
     private CategoryModel category;
-    @CreationTimestamp
-    private LocalDate createDate;
-    private LocalDate updateTime;
     private boolean active;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")

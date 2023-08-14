@@ -1,8 +1,8 @@
 package az.sariyevtech.ecommerce.services.impl;
 
-import az.sariyevtech.ecommerce.dto.StoreDto;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.dto.converter.StoreConverter;
-import az.sariyevtech.ecommerce.dto.request.CreateStoreRequest;
+import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
@@ -32,7 +32,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void createStore(CreateStoreRequest request) {
+    public void createStore(StoreCreateRequest request) {
         StoreModel store = storeConverter.convertCreateStoreToModel(request);
         store.setUserId(tokenResponse.getUserId());
         storeRepository.save(store);
@@ -56,7 +56,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public StoreDto updateStore(Long id, CreateStoreRequest request) {
+    public StoreDto updateStore(Long id, StoreCreateRequest request) {
         return null;
     }
 

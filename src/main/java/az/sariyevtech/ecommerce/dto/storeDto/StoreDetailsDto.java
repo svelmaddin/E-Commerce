@@ -1,11 +1,11 @@
-package az.sariyevtech.ecommerce.dto;
+package az.sariyevtech.ecommerce.dto.storeDto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
+
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 public class StoreDetailsDto {
@@ -16,7 +16,7 @@ public class StoreDetailsDto {
     private String zipcode;
     private String address;
     private String phoneNumber;
-    private LocalDate createTime;
-    private LocalDate updateTime;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private Byte[] photo;
 }

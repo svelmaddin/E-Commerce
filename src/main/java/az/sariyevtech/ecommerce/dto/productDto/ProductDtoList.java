@@ -1,6 +1,6 @@
 package az.sariyevtech.ecommerce.dto.productDto;
 
-import az.sariyevtech.ecommerce.dto.StoreDto;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import lombok.Builder;
 import lombok.Getter;
 

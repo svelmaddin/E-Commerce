@@ -1,6 +1,6 @@
 package az.sariyevtech.ecommerce.services.impl;
 
-import az.sariyevtech.ecommerce.dto.StoreDto;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.dto.converter.ProductConverter;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
@@ -14,6 +14,7 @@ import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
                 && !dto.getProductDesc().getProductStock().equals(description.getProductStock())) {
             description.setProductStock(dto.getProductDesc().getProductStock());
         }
-        fromDb.setUpdateTime(LocalDate.now());
+        fromDb.setUpdateAt(LocalDateTime.now());
         return productConverter.convert(fromDb);
     }
 
@@ -107,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
         ProductModel product = repository.findByIdAndStore(id, storeServiceImpl.getCurrentUserStore())
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setActive(status);
-        product.setUpdateTime(LocalDate.now());
+        product.setUpdateAt(LocalDateTime.now());
         repository.save(product);
     }
 
@@ -139,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .price(product.getPrice())
                 .category(product.getCategory())
-                .createDate(product.getCreateDate())
+                .createDate(product.getCreateAt())
                 .store(StoreDto.builder().name(product.getStore().getName()).build())
                 .productReview(productConverter.reviewListConvert(product.getProductReview()))
                 .build();

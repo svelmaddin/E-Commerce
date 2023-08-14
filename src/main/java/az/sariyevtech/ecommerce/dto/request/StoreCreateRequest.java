@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateStoreRequest {
+public class StoreCreateRequest {
     private String name;
     private String country;
     private String city;

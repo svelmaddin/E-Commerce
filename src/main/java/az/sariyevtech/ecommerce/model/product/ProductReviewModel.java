@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.model.product;
 
+import az.sariyevtech.ecommerce.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,10 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductReviewModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductReviewModel extends BaseEntity {
     private Integer oneStar;
     private Integer twoStar;
     private Integer threeStar;

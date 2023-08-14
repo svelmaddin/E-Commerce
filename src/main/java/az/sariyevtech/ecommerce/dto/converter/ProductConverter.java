@@ -1,18 +1,17 @@
 package az.sariyevtech.ecommerce.dto.converter;
 
-import az.sariyevtech.ecommerce.dto.*;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDescDto;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDtoList;
 import az.sariyevtech.ecommerce.dto.productDto.ProductReviewDto;
 import az.sariyevtech.ecommerce.dto.request.ProductCreateRequest;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.model.product.ProductReviewModel;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class ProductConverter {
                 .name(fromDb.getName())
                 .price(fromDb.getPrice())
                 .category(fromDb.getCategory())
-                .createDate(fromDb.getCreateDate())
+                .createDate(fromDb.getCreateAt())
                 .active(fromDb.isActive())
                 .store(storeConvert(fromDb.getStore()))
                 .productDesc(productDescDtoConvert(fromDb.getProductDescription()))
@@ -40,8 +39,6 @@ public class ProductConverter {
                 .price(dto.getPrice())
                 .category(dto.getCategory())
                 .active(false)
-                .createDate(LocalDate.now())
-                .updateTime(LocalDate.now())
                 .build();
     }
 
