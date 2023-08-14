@@ -46,7 +46,6 @@ public class OrderServiceImpl implements OrderService {
         return converter.toDto(order);
     }
 
-    //TODO create findByUserId method in repo
     @Override
     public List<OrderDto> findUserOrders() {
         var userId = tokenResponse.getUserId();
@@ -73,12 +72,19 @@ public class OrderServiceImpl implements OrderService {
         return converter.toDto(orderFromDb);
     }
 
+    public Double calculateTotalPrice(Long productId, int count) {
+        final ProductDto product = productService.viewProduct(productId);
+        return product.getPrice() * count;
+    }
+
+    //TODO
     @Transactional
     @Override
     public OrderDto updateOrder(Long id, OrderDto request) {
         return null;
     }
 
+    //TODO
     @Override
     public void deleteOrder(Long id) {
 
