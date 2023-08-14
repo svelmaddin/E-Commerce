@@ -21,6 +21,8 @@ public class OrderModel extends BaseEntity {
     private String deliveryTime;
     private double totalPrice;
     @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
     @Enumerated(EnumType.STRING)
     private DeliveryLoc deliveryLocType;
