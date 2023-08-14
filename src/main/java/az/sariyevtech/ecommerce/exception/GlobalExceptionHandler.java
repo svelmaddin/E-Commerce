@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.exception;
 
+import org.hibernate.sql.Insert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,15 @@ public class GlobalExceptionHandler {
         detail.add(storeNotFoundException.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse("Store not Found !", detail);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<?> orderNotFound(OrderNotFoundException orderNotFoundException) {
+        List<String> detail = new ArrayList<>();
+        detail.add(orderNotFoundException.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse("Order not Found !", detail);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

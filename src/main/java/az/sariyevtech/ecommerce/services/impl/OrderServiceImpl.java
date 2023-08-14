@@ -4,17 +4,19 @@ import az.sariyevtech.ecommerce.dto.OrderDto;
 import az.sariyevtech.ecommerce.dto.converter.OrderConverter;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
+import az.sariyevtech.ecommerce.exception.OrderNotFoundException;
 import az.sariyevtech.ecommerce.model.order.OrderModel;
 import az.sariyevtech.ecommerce.repository.OrderRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.OrderService;
 import az.sariyevtech.ecommerce.services.ProductService;
 import jakarta.transaction.Transactional;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static az.sariyevtech.ecommerce.util.ErrorMessages.ORDER_NOT_FOUND;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -39,7 +41,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findById(Long id) {
-        final OrderModel order = repository.findById(id).orElseThrow();
+        final OrderModel order = repository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND + id));
         return converter.toDto(order);
     }
 
