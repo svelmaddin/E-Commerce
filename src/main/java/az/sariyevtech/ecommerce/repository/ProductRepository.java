@@ -12,7 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductModel, Long> {
-    Optional<List<ProductModel>> findAllByActive(boolean active);
+//    Optional<List<ProductModel>> findAllByActive(boolean active);
+
+    Optional<List<ProductModel>> findAllByActiveAndStoreActive(boolean active, boolean storeActive);
 
     @Query("SELECT p FROM ProductModel p where p.id=:productId AND p.store=:store")
     Optional<ProductModel> findByIdAndStore(Long productId, StoreModel store);

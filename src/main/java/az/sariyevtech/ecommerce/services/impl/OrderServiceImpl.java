@@ -30,13 +30,11 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(OrderRepository repository,
                             OrderConverter converter,
                             TokenResponse tokenResponse,
-                            ProductService productService,
-                            ValidationService validationService) {
+                            ProductService productService) {
         this.repository = repository;
         this.converter = converter;
         this.tokenResponse = tokenResponse;
         this.productService = productService;
-//        this.validationService = validationService;
     }
 
     @Override

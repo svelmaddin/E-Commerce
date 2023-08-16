@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     //forUsers and salesManager
     @Override
     public List<ProductDtoList> getAllProducts() {
-        List<ProductModel> product = repository.findAllByActive(true)
+        List<ProductModel> product = repository.findAllByActiveAndStoreActive(true, true)
                 .orElseThrow(() -> new ProductNotFoundException(NOT_FOUND_ACTIVE_PRODUCTS));
         return product.stream()
                 .map(productConverter::convertForList).collect(Collectors.toList());
