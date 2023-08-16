@@ -13,7 +13,6 @@ import az.sariyevtech.ecommerce.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,19 +26,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductConverter productConverter;
     private final StoreServiceImpl storeServiceImpl;
     private final TokenResponse tokenResponse;
-    private final ValidationService validationService;
-
 
     public ProductServiceImpl(ProductRepository repository,
                               ProductConverter productConverter,
                               StoreServiceImpl storeServiceImpl,
-                              TokenResponse tokenResponse,
-                              ValidationService validationService) {
+                              TokenResponse tokenResponse
+    ) {
         this.repository = repository;
         this.productConverter = productConverter;
         this.storeServiceImpl = storeServiceImpl;
         this.tokenResponse = tokenResponse;
-        this.validationService = validationService;
     }
 
     //forUsers and salesManager
@@ -115,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
     //forSales Manager
     @Override
     public void createProduct(ProductCreateRequest request) {
-        validationService.checkUserStoreValid();
         ProductModel product = productConverter.convertToModel(request);
         ProductDescription description = productConverter.productDescDtoConvertToModel(request.getProductDesc());
         product.setStore(storeServiceImpl.getCurrentUserStore());
@@ -127,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
     //forSales Manager
     @Override
     public void deleteProduct(Long id) {
-        validationService.checkUserStoreValid();
+//        validationService.checkUserStoreValid();
         var user = storeServiceImpl.getCurrentUserStore();
         ProductModel product = repository.findByIdAndStore(id, user)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
@@ -141,7 +136,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getPrice())
                 .category(product.getCategory())
                 .createDate(product.getCreateAt())
-                .store(StoreDto.builder().name(product.getStore().getName()).build())
+                .store(StoreDto.builder().storeName(product.getStore().getStoreName()).build())
                 .productReview(productConverter.reviewListConvert(product.getProductReview()))
                 .build();
     }

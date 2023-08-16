@@ -25,6 +25,24 @@ public class StoreConverter {
                 .build();
     }
 
+    public StoreModel toModel(StoreCreateRequest request) {
+        return StoreModel.builder()
+                .storeName(request.getStoreName())
+                .build();
+    }
+
+    public StoreDetails toDetailsModel(StoreCreateRequest request) {
+        return StoreDetails.builder()
+                .country(request.getCountry())
+                .city(request.getCity())
+                .street(request.getStreet())
+                .zipcode(request.getZipcode())
+                .address(request.getAddress())
+                .phoneNumber(request.getPhoneNumber())
+//                (LocalDate.now())
+                .build();
+    }
+
     public StoreDto convertFromModel(StoreModel storeModel) {
         var storeDetailsDto = StoreDetailsDto.builder()
                 .country(storeModel.getStoreDetails().getCountry())

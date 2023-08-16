@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderConverter converter;
     private final TokenResponse tokenResponse;
     private final ProductService productService;
-    private final ValidationService validationService;
+//    private final ValidationService validationService;
 
     public OrderServiceImpl(OrderRepository repository,
                             OrderConverter converter,
@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         this.converter = converter;
         this.tokenResponse = tokenResponse;
         this.productService = productService;
-        this.validationService = validationService;
+//        this.validationService = validationService;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(OrderCreateRequest request) {
         final ProductDto product = productService.viewProduct(request.getProductId());
         final var customerId = tokenResponse.getUserId();
-        validationService.checkStockAndRequestCount(request, product.getId());
+//        validationService.checkStockAndRequestCount(request, product.getId());
         final OrderModel order = OrderModel.builder()
                 .customerId(customerId)
                 .productId(request.getProductId())

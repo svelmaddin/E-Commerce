@@ -3,6 +3,7 @@ package az.sariyevtech.ecommerce.services.impl;
 import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.dto.converter.StoreConverter;
 import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
+import az.sariyevtech.ecommerce.model.store.StoreDetails;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
@@ -33,7 +34,9 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void createStore(StoreCreateRequest request) {
-        StoreModel store = storeConverter.convertCreateStoreToModel(request);
+        StoreModel store = storeConverter.toModel(request);
+        StoreDetails details = storeConverter.toDetailsModel(request);
+        store.setStoreDetails(details);
         store.setUserId(tokenResponse.getUserId());
         storeRepository.save(store);
     }

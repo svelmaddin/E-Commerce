@@ -21,8 +21,7 @@ public class StoreDetails extends BaseEntity {
     private String address;
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "storeDetails")
     private StoreModel store;
 
 }
