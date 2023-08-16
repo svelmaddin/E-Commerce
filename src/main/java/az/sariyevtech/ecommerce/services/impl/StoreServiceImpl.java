@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreModel getCurrentUserStore() {
-        return storeRepository.findByUserId(tokenResponse.getUserId());
+        return storeRepository.findByUserId(tokenResponse.getUserId()).orElseThrow();
     }
 
     @Override
@@ -54,6 +54,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public StoreDto getStoreByUserId(String id) {
+        StoreDto dto = storeConverter.convertFromModel(storeRepository.findByUserId(id).orElseThrow());
+        return dto;
+    }
+
+    @Override
     public void deleteStore(Long id) {
 
     }
@@ -61,6 +67,13 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto updateStore(Long id, StoreCreateRequest request) {
         return null;
+    }
+
+    @Override
+    public void setStatus(String userId, boolean status) {
+        StoreModel store = storeRepository.findByUserId(userId).orElseThrow();
+        store.setActive(status);
+        storeRepository.save(store);
     }
 
 }

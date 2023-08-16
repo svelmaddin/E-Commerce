@@ -45,6 +45,7 @@ public class StoreConverter {
 
     public StoreDto convertFromModel(StoreModel storeModel) {
         var storeDetailsDto = StoreDetailsDto.builder()
+                .id(storeModel.getStoreDetails().getId())
                 .country(storeModel.getStoreDetails().getCountry())
                 .city(storeModel.getStoreDetails().getCity())
                 .street(storeModel.getStoreDetails().getStreet())
@@ -61,14 +62,4 @@ public class StoreConverter {
                 .build();
     }
 
-//        private Long id;
-//    private String country;
-//    private String city;
-//    private String street;
-//    private String zipcode;
-//    private String address;
-//    private String phoneNumber;
-//    private LocalDate createTime;
-//    private LocalDate updateTime;
-//    private Byte[] photo;
 }

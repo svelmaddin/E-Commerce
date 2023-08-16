@@ -25,7 +25,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderConverter converter;
     private final TokenResponse tokenResponse;
     private final ProductService productService;
-//    private final ValidationService validationService;
 
     public OrderServiceImpl(OrderRepository repository,
                             OrderConverter converter,
@@ -55,20 +54,11 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByCustomerId(userId).stream().map(converter::toDto).collect(Collectors.toList());
     }
 
-
-//    ERROR:Action:
-//Relying upon circular references is discouraged
-// and they are prohibited by default.
-// Update your application to remove the dependency cycle between beans.
-// As a last resort, it may be possible to break
-// the cycle automatically by setting spring.main.allow-circular-references to true.
-
     @Override
     @Transactional
     public OrderDto createOrder(OrderCreateRequest request) {
         final ProductDto product = productService.viewProduct(request.getProductId());
         final var customerId = tokenResponse.getUserId();
-//        validationService.checkStockAndRequestCount(request, product.getId());
         final OrderModel order = OrderModel.builder()
                 .customerId(customerId)
                 .productId(request.getProductId())

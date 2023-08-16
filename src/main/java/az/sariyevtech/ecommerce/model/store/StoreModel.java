@@ -25,6 +25,6 @@ public class StoreModel {
     @OneToOne(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @JoinColumn(name = "storeDetails_id", referencedColumnName = "id")
     private StoreDetails storeDetails;
-    private Long userId;
+    private String userId;
 
 }

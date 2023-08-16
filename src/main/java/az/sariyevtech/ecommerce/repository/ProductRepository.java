@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<ProductModel, Long> {
 
     List<ProductModel> findAllByStoreId(Long storeId);
 
-    List<ProductModel> findByStoreUserId(Long id);
+    List<ProductModel> findByStoreUserId(String id);
 
     @Modifying
     @Query("DELETE from ProductModel c WHERE c.store=:user AND c.id=:productId")

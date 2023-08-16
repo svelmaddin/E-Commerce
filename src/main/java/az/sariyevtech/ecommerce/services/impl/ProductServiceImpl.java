@@ -122,7 +122,6 @@ public class ProductServiceImpl implements ProductService {
     //forSales Manager
     @Override
     public void deleteProduct(Long id) {
-//        validationService.checkUserStoreValid();
         var user = storeServiceImpl.getCurrentUserStore();
         ProductModel product = repository.findByIdAndStore(id, user)
                 .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));

@@ -13,7 +13,7 @@ import lombok.*;
 @Getter
 @Setter
 public class OrderModel extends BaseEntity {
-    private Long customerId;
+    private String customerId;
     private Long productId;
     private int count;
     private String description;

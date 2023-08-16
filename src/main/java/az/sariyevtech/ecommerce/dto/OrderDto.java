@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OrderDto {
     private Long orderId;
-    private Long customerId;
+    private String customerId;
     private Long productId;
     private int count;
     private LocalDateTime createAt;
