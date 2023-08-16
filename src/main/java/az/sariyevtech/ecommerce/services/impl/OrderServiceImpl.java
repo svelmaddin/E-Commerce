@@ -6,6 +6,7 @@ import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
 import az.sariyevtech.ecommerce.exception.OrderNotFoundException;
 import az.sariyevtech.ecommerce.model.order.OrderModel;
+import az.sariyevtech.ecommerce.model.order.OrderStatus;
 import az.sariyevtech.ecommerce.repository.OrderRepository;
 import az.sariyevtech.ecommerce.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.OrderService;
@@ -24,14 +25,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderConverter converter;
     private final TokenResponse tokenResponse;
     private final ProductService productService;
+    private final ValidationService validationService;
 
     public OrderServiceImpl(OrderRepository repository,
                             OrderConverter converter,
-                            TokenResponse tokenResponse, ProductService productService) {
+                            TokenResponse tokenResponse,
+                            ProductService productService,
+                            ValidationService validationService) {
         this.repository = repository;
         this.converter = converter;
         this.tokenResponse = tokenResponse;
         this.productService = productService;
+        this.validationService = validationService;
     }
 
     @Override
@@ -52,11 +57,20 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByCustomerId(userId).stream().map(converter::toDto).collect(Collectors.toList());
     }
 
+
+//    ERROR:Action:
+//Relying upon circular references is discouraged
+// and they are prohibited by default.
+// Update your application to remove the dependency cycle between beans.
+// As a last resort, it may be possible to break
+// the cycle automatically by setting spring.main.allow-circular-references to true.
+
     @Override
     @Transactional
     public OrderDto createOrder(OrderCreateRequest request) {
         final ProductDto product = productService.viewProduct(request.getProductId());
         final var customerId = tokenResponse.getUserId();
+        validationService.checkStockAndRequestCount(request, product.getId());
         final OrderModel order = OrderModel.builder()
                 .customerId(customerId)
                 .productId(request.getProductId())
@@ -67,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
                 .paymentType(request.getPaymentType())
                 .deliveryLocType(request.getDeliveryLocType())
                 .build();
+        order.setOrderStatus(OrderStatus.valueOf("ORDER_PROCESSING"));
         order.setTotalPrice(request.getCount() * product.getPrice());
         final OrderModel orderFromDb = repository.save(order);
         return converter.toDto(orderFromDb);

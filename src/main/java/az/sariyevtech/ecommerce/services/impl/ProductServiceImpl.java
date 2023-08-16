@@ -145,4 +145,9 @@ public class ProductServiceImpl implements ProductService {
                 .productReview(productConverter.reviewListConvert(product.getProductReview()))
                 .build();
     }
+
+    protected ProductModel getProductFromDb(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
+    }
+
 }

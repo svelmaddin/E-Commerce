@@ -20,7 +20,7 @@ public class StoreConverter {
 //                (LocalDate.now())
                 .build();
         return StoreModel.builder()
-                .name(request.getName())
+                .storeName(request.getStoreName())
                 .storeDetails(storeDetails)
                 .build();
     }
@@ -38,7 +38,7 @@ public class StoreConverter {
                 .build();
         return StoreDto.builder()
                 .id(storeModel.getId())
-                .name(storeModel.getName())
+                .storeName(storeModel.getStoreName())
                 .detailsDto(storeDetailsDto)
                 .build();
     }

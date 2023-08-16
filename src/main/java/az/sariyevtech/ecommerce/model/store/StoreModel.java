@@ -17,7 +17,7 @@ public class StoreModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 1L;
-    private String name;
+    private String storeName;
 
     @OneToMany(mappedBy = "store",fetch = FetchType.EAGER)
     private List<ProductModel> product = new ArrayList<>();

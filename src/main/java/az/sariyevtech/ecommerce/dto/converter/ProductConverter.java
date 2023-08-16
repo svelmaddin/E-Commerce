@@ -51,7 +51,7 @@ public class ProductConverter {
                 .active(fromDb.isActive())
                 .store(StoreDto.builder()
                         .id(fromDb.getStore().getId())
-                        .name(fromDb.getStore().getName())
+                        .storeName(fromDb.getStore().getStoreName())
                         .build())
                 .build();
     }
@@ -60,7 +60,7 @@ public class ProductConverter {
     private StoreDto storeConvert(StoreModel fromDb) {
         return StoreDto.builder()
                 .id(fromDb.getId())
-                .name(fromDb.getName())
+                .storeName(fromDb.getStoreName())
                 .build();
     }
 

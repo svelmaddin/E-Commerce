@@ -37,4 +37,13 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Order not Found !", detail);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(OutOfStockException.class)
+    public ResponseEntity<?> outOfStockException(OutOfStockException outOfStockException) {
+        List<String> detail = new ArrayList<>();
+        detail.add(outOfStockException.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse("Out Of Stock!", detail);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

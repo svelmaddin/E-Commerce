@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class StoreDto {
     public Long id;
-    public String name;
+    public String storeName;
     private StoreDetailsDto detailsDto;
 }
