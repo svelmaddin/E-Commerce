@@ -26,18 +26,4 @@ public class OrderConverter {
                 .deliveryLocType(fromDb.getDeliveryLocType())
                 .build();
     }
-
-    public OrderModel toModel(OrderDto fromDto) {
-        return OrderModel.builder()
-                .customerId(fromDto.getCustomerId())
-                .productId(fromDto.getProductId())
-                .count(fromDto.getCount())
-                .description(fromDto.getDescription())
-                .deliveryAddress(fromDto.getDeliveryAddress())
-                .deliveryTime(fromDto.getDeliveryTime())
-                .totalPrice(fromDto.getTotalPrice())
-                .paymentType(fromDto.getPaymentType())
-                .deliveryLocType(fromDto.getDeliveryLocType())
-                .build();
-    }
 }

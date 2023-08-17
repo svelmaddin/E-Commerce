@@ -1,6 +1,7 @@
 package az.sariyevtech.ecommerce.controller;
 
 import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDetailsDto;
 import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.services.StoreService;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,15 @@ public class StoreController {
         return ResponseEntity.ok(storeService.getStoreByUserId(id));
     }
 
-    @PatchMapping("/edit/status/{id}")
-    public ResponseEntity<Void> setStoreStatus(@PathVariable String id, boolean status) {
+    @PatchMapping("/edit")
+    public ResponseEntity<Void> setStoreStatus(@RequestParam(name = "id") String id,
+                                               @RequestParam(name = "status") boolean status) {
         storeService.setStatus(id, status);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/details/byUserId/{id}")
+    public ResponseEntity<StoreDetailsDto> getStoreDetailsByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(storeService.getStoreDetails(id));
     }
 }

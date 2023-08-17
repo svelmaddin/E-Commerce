@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.services;
 
+import az.sariyevtech.ecommerce.dto.storeDto.StoreDetailsDto;
 import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
@@ -22,4 +23,5 @@ public interface StoreService {
     void setStatus(String userId, boolean status);
 
     StoreDto getStoreByUserId(String Id);
+    StoreDetailsDto getStoreDetails(Long id);
 }

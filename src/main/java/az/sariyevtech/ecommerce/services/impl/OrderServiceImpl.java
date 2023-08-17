@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
                 .paymentType(request.getPaymentType())
                 .deliveryLocType(request.getDeliveryLocType())
                 .build();
-        order.setOrderStatus(OrderStatus.valueOf("ORDER_PROCESSING"));
+        order.setOrderStatus(OrderStatus.ORDER_PROCESSING);
         order.setTotalPrice(request.getCount() * product.getPrice());
         final OrderModel orderFromDb = repository.save(order);
         return converter.toDto(orderFromDb);
