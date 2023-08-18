@@ -44,7 +44,6 @@ public class StoreServiceImpl implements StoreService {
         store.setUserId(tokenResponse.getUserId());
         storeRepository.save(store);
     }
-
     @Override
     public List<StoreDto> getAllStore() {
         return storeRepository.findAll().stream()
