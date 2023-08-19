@@ -39,7 +39,6 @@ public class StoreConverter {
                 .zipcode(request.getZipcode())
                 .address(request.getAddress())
                 .phoneNumber(request.getPhoneNumber())
-//                (LocalDate.now())
                 .build();
     }
 

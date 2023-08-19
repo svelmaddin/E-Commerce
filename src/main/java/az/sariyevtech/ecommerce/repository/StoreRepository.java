@@ -12,5 +12,5 @@ public interface StoreRepository extends JpaRepository<StoreModel, Long> {
     Optional<StoreModel> findByUserId(String id);
 
     @Query("select s from StoreModel s where s.userId=:id")
-    StoreModel getStoreModelByUserId(String id);
+    Optional<StoreModel> getStoreModelByUserId(String id);
 }

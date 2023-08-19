@@ -44,6 +44,7 @@ public class StoreServiceImpl implements StoreService {
         store.setUserId(tokenResponse.getUserId());
         storeRepository.save(store);
     }
+
     @Override
     public List<StoreDto> getAllStore() {
         return storeRepository.findAll().stream()
@@ -62,7 +63,7 @@ public class StoreServiceImpl implements StoreService {
                 .orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + id)));
     }
 
-    //    TODO
+    //TODO
     @Override
     public void deleteStore(Long id) {
 
@@ -76,15 +77,16 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void setStatus(String userId, boolean status) {
-        StoreModel store = storeRepository.getStoreModelByUserId(userId);
-//                .orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + userId));
+        StoreModel store = storeRepository.getStoreModelByUserId(userId)
+                .orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + userId));
         store.setActive(status);
         storeRepository.save(store);
     }
 
     @Override
     public StoreDetailsDto getStoreDetails(Long id) {
-        StoreModel fromDb = storeRepository.findById(id).orElseThrow();
+        StoreModel fromDb = storeRepository.findById(id)
+                .orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + id));
         return StoreDetailsDto.builder()
                 .id(fromDb.getStoreDetails().getId())
                 .country(fromDb.getStoreDetails().getCountry())

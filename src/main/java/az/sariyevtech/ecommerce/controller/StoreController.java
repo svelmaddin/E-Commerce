@@ -44,4 +44,5 @@ public class StoreController {
     public ResponseEntity<StoreDetailsDto> getStoreDetailsByUserId(@PathVariable Long id) {
         return ResponseEntity.ok(storeService.getStoreDetails(id));
     }
+
 }
