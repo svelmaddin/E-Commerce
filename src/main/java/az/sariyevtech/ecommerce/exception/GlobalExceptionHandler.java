@@ -46,4 +46,13 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("Out Of Stock!", detail);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(OrderCantBeUpdateException.class)
+    public ResponseEntity<?> orderUpdate(OrderCantBeUpdateException orderCantBeUpdateException) {
+        List<String> detail = new ArrayList<>();
+        detail.add(orderCantBeUpdateException.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse("Order update errors", detail);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

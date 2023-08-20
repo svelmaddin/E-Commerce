@@ -1,4 +1,4 @@
-package az.sariyevtech.ecommerce.dto;
+package az.sariyevtech.ecommerce.dto.orderDto;
 
 import az.sariyevtech.ecommerce.model.order.DeliveryLoc;
 import az.sariyevtech.ecommerce.model.order.PaymentType;

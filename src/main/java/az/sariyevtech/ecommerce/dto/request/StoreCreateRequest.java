@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class StoreCreateRequest {
+    private String userId;
     private String storeName;
     private String country;
     private String city;

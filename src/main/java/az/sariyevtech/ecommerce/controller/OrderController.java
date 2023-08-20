@@ -1,6 +1,6 @@
 package az.sariyevtech.ecommerce.controller;
 
-import az.sariyevtech.ecommerce.dto.OrderDto;
+import az.sariyevtech.ecommerce.dto.orderDto.OrderDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
 import az.sariyevtech.ecommerce.services.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +33,10 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderCreateRequest request) {
         return ResponseEntity.ok(orderService.createOrder(request));
+    }
+
+    @PostMapping("/edit/{orderId}")
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable Long orderId, @RequestBody OrderDto orderDto) {
+        return ResponseEntity.ok(orderService.updateOrder(orderId, orderDto));
     }
 }

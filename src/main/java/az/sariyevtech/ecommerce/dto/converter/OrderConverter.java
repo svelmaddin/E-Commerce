@@ -1,6 +1,6 @@
 package az.sariyevtech.ecommerce.dto.converter;
 
-import az.sariyevtech.ecommerce.dto.OrderDto;
+import az.sariyevtech.ecommerce.dto.orderDto.OrderDto;
 import az.sariyevtech.ecommerce.model.order.OrderModel;
 import org.springframework.stereotype.Component;
 

@@ -33,7 +33,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreModel getCurrentUserStore() {
-        return storeRepository.findByUserId(tokenResponse.getUserId()).orElseThrow();
+        return storeRepository.findByUserId(tokenResponse.getStoreId()).orElseThrow();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class StoreServiceImpl implements StoreService {
         StoreModel store = storeConverter.toModel(request);
         StoreDetails details = storeConverter.toDetailsModel(request);
         store.setStoreDetails(details);
-        store.setUserId(tokenResponse.getUserId());
+        store.setUserId(request.getUserId());
         storeRepository.save(store);
     }
 
