@@ -10,7 +10,7 @@ import az.sariyevtech.ecommerce.model.order.DeliveryLoc;
 import az.sariyevtech.ecommerce.model.order.OrderModel;
 import az.sariyevtech.ecommerce.model.order.OrderStatus;
 import az.sariyevtech.ecommerce.repository.OrderRepository;
-import az.sariyevtech.ecommerce.response.TokenResponse;
+import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.OrderService;
 import az.sariyevtech.ecommerce.services.ProductService;
 import jakarta.transaction.Transactional;
@@ -41,7 +41,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getAllOrders() {
-        return repository.findAll().stream().map(converter::toDto).collect(Collectors.toList());
+        return repository.findAll().stream()
+                .map(converter::toDto).collect(Collectors.toList());
     }
 
     @Override
@@ -54,7 +55,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findUserOrders() {
         var userId = tokenResponse.getUserId();
-        return repository.findByCustomerId(userId).stream().map(converter::toDto).collect(Collectors.toList());
+        return repository.findByCustomerId(userId).stream()
+                .map(converter::toDto).collect(Collectors.toList());
     }
 
     @Override
@@ -73,7 +75,9 @@ public class OrderServiceImpl implements OrderService {
                 .deliveryLocType(request.getDeliveryLocType())
                 .build();
         order.setOrderStatus(OrderStatus.ORDER_PROCESSING);
-        order.setTotalPrice(calculateTotalPrice(product.getId(), request.getCount(), request.getDeliveryLocType()));
+        order.setTotalPrice(calculateTotalPrice(product.getId(),
+                request.getCount(),
+                request.getDeliveryLocType()));
         final OrderModel orderFromDb = repository.save(order);
         return converter.toDto(orderFromDb);
     }
@@ -98,7 +102,6 @@ public class OrderServiceImpl implements OrderService {
         return productTotalPriceWithDelivery;
     }
 
-    //TODO
     @Transactional
     @Override
     public OrderDto updateOrder(Long id, OrderDto request) {
@@ -129,11 +132,12 @@ public class OrderServiceImpl implements OrderService {
                 order.setDeliveryLocType(request.getDeliveryLocType());
             }
             assert request.getDeliveryLocType() != null;
-
-            var totalPrice = calculateTotalPrice(request.getProductId(),
-                    request.getCount(),
-                    request.getDeliveryLocType());
-            order.setTotalPrice(totalPrice);
+            if (request.getCount() != 0) {
+                var totalPrice = calculateTotalPrice(request.getProductId(),
+                        request.getCount(),
+                        request.getDeliveryLocType());
+                order.setTotalPrice(totalPrice);
+            }
 
             return converter.toDto(repository.save(order));
         } else {

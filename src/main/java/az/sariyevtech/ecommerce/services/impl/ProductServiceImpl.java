@@ -9,7 +9,7 @@ import az.sariyevtech.ecommerce.exception.ProductNotFoundException;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
-import az.sariyevtech.ecommerce.response.TokenResponse;
+import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.stereotype.Service;
 

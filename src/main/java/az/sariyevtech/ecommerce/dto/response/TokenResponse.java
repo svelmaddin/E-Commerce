@@ -1,4 +1,4 @@
-package az.sariyevtech.ecommerce.response;
+package az.sariyevtech.ecommerce.dto.response;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

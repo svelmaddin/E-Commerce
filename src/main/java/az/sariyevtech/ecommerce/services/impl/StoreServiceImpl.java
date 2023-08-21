@@ -8,7 +8,7 @@ import az.sariyevtech.ecommerce.exception.StoreNotFoundException;
 import az.sariyevtech.ecommerce.model.store.StoreDetails;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
-import az.sariyevtech.ecommerce.response.TokenResponse;
+import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.StoreService;
 import org.springframework.stereotype.Service;
 
