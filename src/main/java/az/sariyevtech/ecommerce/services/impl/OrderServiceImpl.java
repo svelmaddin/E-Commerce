@@ -4,6 +4,7 @@ import az.sariyevtech.ecommerce.dto.orderDto.OrderDto;
 import az.sariyevtech.ecommerce.dto.converter.OrderConverter;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
+import az.sariyevtech.ecommerce.dto.request.OrderStatusRequest;
 import az.sariyevtech.ecommerce.exception.OrderCantBeUpdateException;
 import az.sariyevtech.ecommerce.exception.OrderNotFoundException;
 import az.sariyevtech.ecommerce.model.order.DeliveryLoc;
@@ -13,8 +14,11 @@ import az.sariyevtech.ecommerce.repository.OrderRepository;
 import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.OrderService;
 import az.sariyevtech.ecommerce.services.ProductService;
+import az.sariyevtech.ecommerce.services.StoreService;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,19 +28,25 @@ import static az.sariyevtech.ecommerce.util.ErrorMessages.ORDER_NOT_FOUND;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+    private final RestTemplate restTemplate;
     private final OrderRepository repository;
     private final OrderConverter converter;
     private final TokenResponse tokenResponse;
     private final ProductService productService;
+    private final StoreService storeService;
 
-    public OrderServiceImpl(OrderRepository repository,
+    public OrderServiceImpl(RestTemplate restTemplate,
+                            OrderRepository repository,
                             OrderConverter converter,
                             TokenResponse tokenResponse,
-                            ProductService productService) {
+                            ProductService productService,
+                            StoreService storeService) {
+        this.restTemplate = restTemplate;
         this.repository = repository;
         this.converter = converter;
         this.tokenResponse = tokenResponse;
         this.productService = productService;
+        this.storeService = storeService;
     }
 
     @Override
@@ -79,6 +89,8 @@ public class OrderServiceImpl implements OrderService {
                 request.getCount(),
                 request.getDeliveryLocType()));
         final OrderModel orderFromDb = repository.save(order);
+        repository.save(order);
+        sendOrderStatusEmailToCustomer(orderFromDb.getId());
         return converter.toDto(orderFromDb);
     }
 
@@ -149,5 +161,34 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
 
+    }
+
+    private void sendOrderStatusEmailToCustomer(Long orderId) {
+        OrderModel order = repository.findById(orderId).orElseThrow();
+        var product = productService.viewProduct(order.getProductId());
+        var storeUserId = storeService.getUserIdByStoreId(product.getStore().getId());
+        String orderProcessStatus = String.valueOf(OrderStatus.ORDER_PROCESSING);
+        OrderStatusRequest orderStatus = OrderStatusRequest.builder()
+                .customerId(order.getCustomerId())
+                .storeId(storeUserId)
+                .orderId(order.getId())
+                .details(order.getDescription())
+                .price(order.getTotalPrice())
+                .orderStatus(orderProcessStatus)
+                .build();
+        final String URL = "http://localhost:8084/email/emailSendToCustomer";
+        try {
+            HttpEntity<OrderStatusRequest> entity = new HttpEntity<>(
+                    new OrderStatusRequest(orderStatus.getCustomerId(),
+                            orderStatus.getStoreId(),
+                            orderStatus.getOrderId(),
+                            orderStatus.getDetails(),
+                            orderStatus.getPrice(),
+                            orderStatus.getOrderStatus())
+            );
+
+            restTemplate.postForObject(URL, entity, OrderStatusRequest.class);
+        } catch (Exception ignored) {
+        }
     }
 }

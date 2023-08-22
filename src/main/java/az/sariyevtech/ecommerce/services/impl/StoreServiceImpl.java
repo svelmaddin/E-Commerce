@@ -101,4 +101,10 @@ public class StoreServiceImpl implements StoreService {
                 .build();
     }
 
+    @Override
+    public String getUserIdByStoreId(Long id) {
+        var store = storeRepository.findById(id).orElseThrow();
+        return store.getUserId();
+    }
+
 }

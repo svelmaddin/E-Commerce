@@ -24,4 +24,5 @@ public interface StoreService {
 
     StoreDto getStoreByUserId(String Id);
     StoreDetailsDto getStoreDetails(Long id);
+    String getUserIdByStoreId(Long id);
 }

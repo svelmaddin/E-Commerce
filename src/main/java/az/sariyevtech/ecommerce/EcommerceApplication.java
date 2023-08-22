@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+
 //@EnableEurekaServer
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "ecommerce", version = "1.0.0", description = "ecommerce"))
@@ -18,5 +20,10 @@ public class EcommerceApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
     }
 }
