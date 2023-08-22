@@ -63,10 +63,11 @@ public class StoreServiceImpl implements StoreService {
                 .orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + id)));
     }
 
-    //TODO
     @Override
     public void deleteStore(Long id) {
-
+        StoreModel storeModel = storeRepository.findById(id).orElseThrow(() -> new StoreNotFoundException(STORE_NOT_FOUND + id));
+        storeModel.setActive(false);
+        storeRepository.save(storeModel);
     }
 
     //TODO

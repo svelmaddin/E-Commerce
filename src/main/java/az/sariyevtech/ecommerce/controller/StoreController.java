@@ -45,4 +45,9 @@ public class StoreController {
         return ResponseEntity.ok(storeService.getStoreDetails(id));
     }
 
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<String> deleteStore(@PathVariable Long id) {
+        storeService.deleteStore(id);
+        return ResponseEntity.ok("Store deleted successfully");
+    }
 }
