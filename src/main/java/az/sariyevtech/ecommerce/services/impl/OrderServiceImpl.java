@@ -2,6 +2,7 @@ package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.orderDto.OrderDto;
 import az.sariyevtech.ecommerce.dto.converter.OrderConverter;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDescDto;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
 import az.sariyevtech.ecommerce.dto.request.OrderStatusRequest;
@@ -94,6 +95,10 @@ public class OrderServiceImpl implements OrderService {
         return converter.toDto(orderFromDb);
     }
 
+    public void addProductToBasket() {
+
+    }
+
     public Double calculateTotalPrice(Long productId, int count, DeliveryLoc loc) {
         final ProductDto product = productService.viewProduct(productId);
         double productTotalPriceWithDelivery = 0;
@@ -161,6 +166,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Long id) {
 
+    }
+
+    @Override
+    public ProductDto makeSingleOrder(Long productId, int count) {
+        ProductDto formDb = productService.viewProduct(productId);
+        ProductDto product = ProductDto.builder()
+                .name(formDb.getName())
+                .price(formDb.getPrice())
+                .productDesc(ProductDescDto.builder()
+                        .productStock(formDb.getProductDesc().getProductStock())
+                        .build())
+                .build();
+        if (count > product.getProductDesc().getProductStock()) {
+            throw new RuntimeException();
+        } else {
+            return product;
+        }
     }
 
     private void sendOrderStatusEmailToCustomer(Long orderId) {

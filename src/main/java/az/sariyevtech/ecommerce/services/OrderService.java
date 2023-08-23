@@ -1,6 +1,7 @@
 package az.sariyevtech.ecommerce.services;
 
 import az.sariyevtech.ecommerce.dto.orderDto.OrderDto;
+import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.OrderCreateRequest;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface OrderService {
     OrderDto updateOrder(Long id, OrderDto request);
 
     void deleteOrder(Long id);
+
+    ProductDto makeSingleOrder(Long productId, int count);
 
 }

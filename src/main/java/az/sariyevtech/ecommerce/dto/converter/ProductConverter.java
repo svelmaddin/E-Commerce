@@ -26,6 +26,7 @@ public class ProductConverter {
                 .category(fromDb.getCategory())
                 .createDate(fromDb.getCreateAt())
                 .active(fromDb.isActive())
+                .discount(fromDb.getDiscount())
                 .store(storeConvert(fromDb.getStore()))
                 .productDesc(productDescDtoConvert(fromDb.getProductDescription()))
                 .productReview(reviewListConvert(fromDb.getProductReview()))

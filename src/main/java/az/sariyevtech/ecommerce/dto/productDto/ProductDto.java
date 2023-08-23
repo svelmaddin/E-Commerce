@@ -16,6 +16,7 @@ public class ProductDto {
     private Double price;
     private CategoryModel category;
     private final LocalDateTime createDate;
+    private Double discount;
     private boolean active;
     private StoreDto store;
     private ProductDescDto productDesc;

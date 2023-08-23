@@ -1,14 +1,6 @@
 package az.sariyevtech.ecommerce.model.order;
 
 public enum OrderStatus {
-//    OrderCancelled
-//OrderDelivered
-//OrderInTransit
-//OrderPaymentDue
-//OrderPickupAvailable
-//OrderProblem
-//OrderProcessing
-//OrderReturned
     ORDER_CANCELLED,
     ORDER_DELIVERED,
     ORDER_IN_TRANSIT,
