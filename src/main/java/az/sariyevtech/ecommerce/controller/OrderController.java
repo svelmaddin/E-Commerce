@@ -10,20 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    private final OrderService orderService;
-    private final BasketServiceImpl basketService;
     private final MakeOrderServiceImpl makeOrderService;
 
-    public OrderController(OrderService orderService, BasketServiceImpl basketService, MakeOrderServiceImpl makeOrderService) {
-        this.orderService = orderService;
-        this.basketService = basketService;
+    public OrderController(MakeOrderServiceImpl makeOrderService) {
         this.makeOrderService = makeOrderService;
-    }
-
-    @PostMapping("/addOrder")
-    public ResponseEntity<String> addOrder(@RequestBody MakeOrder order) {
-        basketService.addProductToBasket(order.isGift(), order.getDeliveryId());
-        return ResponseEntity.ok("Success");
     }
 
     @PostMapping("/createPr")
@@ -32,6 +22,8 @@ public class OrderController {
         makeOrderService.makeOrder(id, count);
         return ResponseEntity.ok("success");
     }
+
+
 
 //    //forAdmin
 //    @GetMapping

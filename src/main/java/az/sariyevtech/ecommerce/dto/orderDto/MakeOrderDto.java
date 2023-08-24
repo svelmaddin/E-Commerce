@@ -9,6 +9,7 @@ import lombok.*;
 public class MakeOrderDto {
     private Long id;
     private Long productId;
+    private String name;
     private String userId;
     private int count;
     private Double totalPrice;

@@ -3,19 +3,18 @@ package az.sariyevtech.ecommerce.model.order;
 import az.sariyevtech.ecommerce.model.BaseEntity;
 import az.sariyevtech.ecommerce.model.basket.BasketModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class MakeOrder extends BaseEntity {
     private Long productId;
     private String userId;
+    private String name;
     private int count;
     private Double totalPrice;
     private boolean active;

@@ -5,6 +5,8 @@ import az.sariyevtech.ecommerce.model.basket.TotalPrice;
 import az.sariyevtech.ecommerce.repository.TotalPriceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TotalPriceServiceImpl {
     private final TotalPriceRepository totalPriceRepository;
@@ -14,12 +16,13 @@ public class TotalPriceServiceImpl {
     }
 
     public void createTotalPrice(TotalPrice price, BasketModel basket) {
-        TotalPrice t = TotalPrice.builder()
-                .intermediatePrice(price.getIntermediatePrice())
-                .giftPackage(price.isGiftPackage())
-                .discount(price.getDiscount())
-                .basket(basket)
-                .build();
-        totalPriceRepository.save(t);
+        TotalPrice totalPrice = totalPriceRepository.findByBasketId(basket.getId()).orElse(
+                new TotalPrice()
+        );
+        totalPrice.setIntermediatePrice(price.getIntermediatePrice());
+        totalPrice.setGiftPackage(price.isGiftPackage());
+        totalPrice.setDiscount(price.getDiscount());
+        totalPrice.setBasket(basket);
+        totalPriceRepository.save(totalPrice);
     }
 }

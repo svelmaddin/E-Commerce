@@ -4,6 +4,7 @@ import az.sariyevtech.ecommerce.dto.request.StoreCreateRequest;
 import az.sariyevtech.ecommerce.dto.storeDto.StoreDetailsDto;
 import az.sariyevtech.ecommerce.dto.storeDto.StoreDto;
 import az.sariyevtech.ecommerce.services.StoreService;
+import az.sariyevtech.ecommerce.services.impl.BasketServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class StoreController {
 
     private final StoreService storeService;
+    private final BasketServiceImpl basketService;
 
-    public StoreController(StoreService storeService) {
+    public StoreController(StoreService storeService, BasketServiceImpl basketService) {
         this.storeService = storeService;
+        this.basketService = basketService;
     }
 
     @PostMapping("/createStore")

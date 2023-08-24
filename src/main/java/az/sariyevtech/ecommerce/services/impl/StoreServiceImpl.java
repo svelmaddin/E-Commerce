@@ -25,7 +25,7 @@ public class StoreServiceImpl implements StoreService {
 
     public StoreServiceImpl(StoreRepository storeRepository,
                             TokenResponse tokenResponse,
-                            StoreConverter storeConverter) {
+                            StoreConverter storeConverter, BasketServiceImpl basketService) {
         this.storeRepository = storeRepository;
         this.tokenResponse = tokenResponse;
         this.storeConverter = storeConverter;
