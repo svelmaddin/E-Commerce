@@ -162,12 +162,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    //TODO
-    @Override
-    public void deleteOrder(Long id) {
-
-    }
-
     @Override
     public ProductDto makeSingleOrder(Long productId, int count) {
         ProductDto formDb = productService.viewProduct(productId);

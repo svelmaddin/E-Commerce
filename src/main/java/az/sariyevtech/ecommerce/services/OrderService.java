@@ -17,8 +17,6 @@ public interface OrderService {
 
     OrderDto updateOrder(Long id, OrderDto request);
 
-    void deleteOrder(Long id);
-
     ProductDto makeSingleOrder(Long productId, int count);
 
 }
