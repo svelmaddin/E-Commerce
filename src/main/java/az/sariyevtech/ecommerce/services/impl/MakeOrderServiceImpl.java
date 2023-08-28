@@ -28,7 +28,7 @@ public class MakeOrderServiceImpl {
         this.makeOrderRepository = makeOrderRepository;
     }
 
-    public MakeOrderDto makeOrder(Long productId, int count) {
+    public void makeOrder(Long productId, int count) {
         ProductDto product = productService.viewProduct(productId);
         double totalPrice = product.getPrice() * count;
         double totalDiscount = product.getDiscount();
@@ -47,7 +47,6 @@ public class MakeOrderServiceImpl {
                 .build();
         orderDb.setBasket(basketService.findByUserId());
         makeOrderRepository.save(orderDb);
-        return convert(orderDb);
     }
 
     public List<MakeOrder> getAllActiveOrders() {

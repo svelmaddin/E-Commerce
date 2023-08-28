@@ -1,15 +1,14 @@
 package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.basket.BasketDto;
-import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.request.CreateBasketRequest;
+import az.sariyevtech.ecommerce.dto.response.BasketResponse;
 import az.sariyevtech.ecommerce.dto.response.OrderCheckOutResponse;
 import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.basket.BasketModel;
 import az.sariyevtech.ecommerce.model.basket.TotalPrice;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.repository.BasketRepository;
-import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +67,19 @@ public class BasketServiceImpl {
         return basketRepository.findByCustomerId(tokenResponse.getUserId());
     }
 
-    public BasketDto getBasket() {
+    public BasketResponse getBasket() {
+        BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
+        List<MakeOrder> orders = orderService.getAllActiveOrders();
+        Set<OrderCheckOutResponse> outResponse = orders.stream().map(this::convert).collect(Collectors.toSet());
+        return BasketResponse.builder()
+                .id(basketModel.getId())
+                .intermediatePrice(basketModel.getTotalPrice().getIntermediatePrice())
+                .discount(basketModel.getTotalPrice().getDiscount())
+                .orderDto(outResponse)
+                .build();
+    }
+
+    protected BasketDto getBasketDto() {
         BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
         Set<OrderCheckOutResponse> outResponse = orders.stream().map(this::convert).collect(Collectors.toSet());
@@ -78,7 +89,6 @@ public class BasketServiceImpl {
                 .discount(basketModel.getTotalPrice().getDiscount())
                 .orderDto(outResponse)
                 .build();
-
     }
 
     private OrderCheckOutResponse convert(MakeOrder fromDb) {

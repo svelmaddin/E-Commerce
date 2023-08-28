@@ -1,9 +1,9 @@
 package az.sariyevtech.ecommerce.controller;
 
-import az.sariyevtech.ecommerce.dto.basket.BasketDto;
 import az.sariyevtech.ecommerce.dto.request.CreateBasketRequest;
-import az.sariyevtech.ecommerce.model.basket.BasketModel;
+import az.sariyevtech.ecommerce.dto.response.BasketResponse;
 import az.sariyevtech.ecommerce.services.impl.BasketServiceImpl;
+import az.sariyevtech.ecommerce.services.impl.EmailService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,15 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/check-out")
 public class CheckOutController {
     private final BasketServiceImpl basketService;
+    private final EmailService emailService;
 
-    public CheckOutController(BasketServiceImpl basketService) {
+    public CheckOutController(BasketServiceImpl basketService, EmailService emailService) {
         this.basketService = basketService;
+        this.emailService = emailService;
     }
 
+
+
     @GetMapping("/")
-    public ResponseEntity<BasketDto> getBasket(@RequestParam(name = "gift") boolean gift,
-                                               @RequestParam(name = "deliveryId") Long id) {
+    public ResponseEntity<BasketResponse> getBasket(@RequestParam(name = "gift") boolean gift,
+                                                    @RequestParam(name = "deliveryId") Long id) {
         basketService.addProductToBasket(gift, id);
+        emailService.sendOrderStatusEmailToCustomer();
         return ResponseEntity.ok(basketService.getBasket());
     }
 

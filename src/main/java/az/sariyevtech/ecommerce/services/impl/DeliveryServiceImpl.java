@@ -29,14 +29,6 @@ public class DeliveryServiceImpl {
     }
 
     public DeliveryModel getById(Long id) {
-        return deliveryRepository.findById(id).orElseThrow();
-//        return DeliveryDto.builder()
-//                .id(id)
-//                .customerFullName(d.getCustomerFullName())
-//                .city(String.valueOf(d.getCity()))
-//                .zipCode(d.getZipCode())
-//                .phoneNumber(d.getPhoneNumber())
-//                .address(d.getAddress())
-//                .build();
-    }
+        System.out.println("Delivery Id : " + id);
+        return deliveryRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with given id : " + id));}
 }

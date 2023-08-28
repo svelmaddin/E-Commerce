@@ -3,7 +3,7 @@ package az.sariyevtech.ecommerce.dto.request;
 import lombok.Getter;
 
 @Getter
-public class MakeOrder {
+public class MakeOrderRequest {
     private boolean gift;
     private Long deliveryId;
 }

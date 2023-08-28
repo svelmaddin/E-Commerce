@@ -1,9 +1,7 @@
 package az.sariyevtech.ecommerce.dto.basket;
 
-import az.sariyevtech.ecommerce.dto.orderDto.MakeOrderDto;
 import az.sariyevtech.ecommerce.dto.response.OrderCheckOutResponse;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,5 +16,6 @@ public class BasketDto {
     private Double intermediatePrice;
     private Double discount;
     private Set<OrderCheckOutResponse> orderDto = new HashSet<>();
+    private Long deliveryId;
 
 }

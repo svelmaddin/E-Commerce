@@ -1,8 +1,5 @@
 package az.sariyevtech.ecommerce.controller;
 
-import az.sariyevtech.ecommerce.dto.request.MakeOrder;
-import az.sariyevtech.ecommerce.services.OrderService;
-import az.sariyevtech.ecommerce.services.impl.BasketServiceImpl;
 import az.sariyevtech.ecommerce.services.impl.MakeOrderServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
