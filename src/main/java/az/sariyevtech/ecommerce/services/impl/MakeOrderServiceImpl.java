@@ -5,6 +5,8 @@ import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
 import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.repository.MakeOrderRepository;
+import az.sariyevtech.ecommerce.services.BasketService;
+import az.sariyevtech.ecommerce.services.MakeOrderService;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MakeOrderServiceImpl {
+public class MakeOrderServiceImpl implements MakeOrderService {
     @Autowired
-    private BasketServiceImpl basketService;
+    private BasketService basketService;
     private final TokenResponse tokenResponse;
     private final ProductService productService;
     private final MakeOrderRepository makeOrderRepository;
@@ -28,6 +30,7 @@ public class MakeOrderServiceImpl {
         this.makeOrderRepository = makeOrderRepository;
     }
 
+    @Override
     public void makeOrder(Long productId, int count) {
         ProductDto product = productService.viewProduct(productId);
         double totalPrice = product.getPrice() * count;
@@ -49,6 +52,7 @@ public class MakeOrderServiceImpl {
         makeOrderRepository.save(orderDb);
     }
 
+    @Override
     public List<MakeOrder> getAllActiveOrders() {
         return makeOrderRepository.findByActiveTrueAndUserId(tokenResponse.getUserId());
     }

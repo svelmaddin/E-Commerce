@@ -1,7 +1,7 @@
 package az.sariyevtech.ecommerce.controller;
 
 import az.sariyevtech.ecommerce.dto.delivery.DeliveryDto;
-import az.sariyevtech.ecommerce.services.impl.DeliveryServiceImpl;
+import az.sariyevtech.ecommerce.services.DeliveryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/address")
 public class AddressController {
-    private final DeliveryServiceImpl deliveryService;
+    private final DeliveryService deliveryService;
 
-    public AddressController(DeliveryServiceImpl deliveryService) {
+    public AddressController(DeliveryService deliveryService) {
         this.deliveryService = deliveryService;
     }
 

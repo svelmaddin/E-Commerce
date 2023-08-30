@@ -9,6 +9,10 @@ import az.sariyevtech.ecommerce.model.basket.BasketModel;
 import az.sariyevtech.ecommerce.model.basket.TotalPrice;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.repository.BasketRepository;
+import az.sariyevtech.ecommerce.services.BasketService;
+import az.sariyevtech.ecommerce.services.DeliveryService;
+import az.sariyevtech.ecommerce.services.MakeOrderService;
+import az.sariyevtech.ecommerce.services.TotalPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +20,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class BasketServiceImpl {
+public class BasketServiceImpl implements BasketService {
     private final BasketRepository basketRepository;
     private final TokenResponse tokenResponse;
-    private final DeliveryServiceImpl deliveryService;
+    private final DeliveryService deliveryService;
     @Autowired
-    private MakeOrderServiceImpl orderService;
-    private final TotalPriceServiceImpl totalPriceService;
+    private MakeOrderService orderService;
+    private final TotalPriceService totalPriceService;
 
     public BasketServiceImpl(BasketRepository basketRepository,
                              TokenResponse tokenResponse,
-                             DeliveryServiceImpl deliveryService,
-                             TotalPriceServiceImpl totalPriceService) {
+                             DeliveryService deliveryService,
+                             TotalPriceService totalPriceService) {
         this.basketRepository = basketRepository;
         this.tokenResponse = tokenResponse;
         this.deliveryService = deliveryService;
         this.totalPriceService = totalPriceService;
     }
 
-
+    @Override
     public void addProductToBasket(boolean giftPackage, Long deliveryId) {
         BasketModel fromDb = basketRepository.findByCustomerId(tokenResponse.getUserId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
@@ -56,6 +60,7 @@ public class BasketServiceImpl {
         basketRepository.save(fromDb);
     }
 
+    @Override
     public void createBasket(CreateBasketRequest request) {
         BasketModel basket = BasketModel.builder()
                 .customerId(request.getId())
@@ -63,10 +68,12 @@ public class BasketServiceImpl {
         basketRepository.save(basket);
     }
 
+    @Override
     public BasketModel findByUserId() {
         return basketRepository.findByCustomerId(tokenResponse.getUserId());
     }
 
+    @Override
     public BasketResponse getBasket() {
         BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
@@ -79,7 +86,8 @@ public class BasketServiceImpl {
                 .build();
     }
 
-    protected BasketDto getBasketDto() {
+    @Override
+    public BasketDto getBasketDto() {
         BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
         Set<OrderCheckOutResponse> outResponse = orders.stream().map(this::convert).collect(Collectors.toSet());

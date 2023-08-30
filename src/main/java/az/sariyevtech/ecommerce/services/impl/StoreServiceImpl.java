@@ -9,6 +9,7 @@ import az.sariyevtech.ecommerce.model.store.StoreDetails;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
 import az.sariyevtech.ecommerce.dto.response.TokenResponse;
+import az.sariyevtech.ecommerce.services.BasketService;
 import az.sariyevtech.ecommerce.services.StoreService;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,8 @@ public class StoreServiceImpl implements StoreService {
 
     public StoreServiceImpl(StoreRepository storeRepository,
                             TokenResponse tokenResponse,
-                            StoreConverter storeConverter, BasketServiceImpl basketService) {
+                            StoreConverter storeConverter
+    ) {
         this.storeRepository = storeRepository;
         this.tokenResponse = tokenResponse;
         this.storeConverter = storeConverter;

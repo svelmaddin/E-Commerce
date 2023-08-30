@@ -1,15 +1,15 @@
 package az.sariyevtech.ecommerce.controller;
 
-import az.sariyevtech.ecommerce.services.impl.MakeOrderServiceImpl;
+import az.sariyevtech.ecommerce.services.MakeOrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    private final MakeOrderServiceImpl makeOrderService;
+    private final MakeOrderService makeOrderService;
 
-    public OrderController(MakeOrderServiceImpl makeOrderService) {
+    public OrderController(MakeOrderService makeOrderService) {
         this.makeOrderService = makeOrderService;
     }
 

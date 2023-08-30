@@ -3,18 +3,20 @@ package az.sariyevtech.ecommerce.services.impl;
 import az.sariyevtech.ecommerce.model.basket.BasketModel;
 import az.sariyevtech.ecommerce.model.basket.TotalPrice;
 import az.sariyevtech.ecommerce.repository.TotalPriceRepository;
+import az.sariyevtech.ecommerce.services.TotalPriceService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class TotalPriceServiceImpl {
+public class TotalPriceServiceImpl implements TotalPriceService {
     private final TotalPriceRepository totalPriceRepository;
 
     public TotalPriceServiceImpl(TotalPriceRepository totalPriceRepository) {
         this.totalPriceRepository = totalPriceRepository;
     }
 
+    @Override
     public void createTotalPrice(TotalPrice price, BasketModel basket) {
         TotalPrice totalPrice = totalPriceRepository.findByBasketId(basket.getId()).orElse(
                 new TotalPrice()

@@ -5,6 +5,9 @@ import az.sariyevtech.ecommerce.dto.email.OrderStatusEmail;
 import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.model.order.OrderStatus;
+import az.sariyevtech.ecommerce.services.BasketService;
+import az.sariyevtech.ecommerce.services.EmailService;
+import az.sariyevtech.ecommerce.services.MakeOrderService;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,28 +15,23 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class EmailService {
-    private final BasketServiceImpl basketService;
-    private final MakeOrderServiceImpl makeOrderService;
-    private final DeliveryServiceImpl deliveryService;
-    private final TotalPriceServiceImpl totalPriceService;
+public class EmailServiceImpl implements EmailService {
+    private final BasketService basketService;
+    private final MakeOrderService makeOrderService;
     private final RestTemplate restTemplate;
     private final TokenResponse tokenResponse;
 
-    public EmailService(BasketServiceImpl basketService,
-                        MakeOrderServiceImpl makeOrderService,
-                        DeliveryServiceImpl deliveryService,
-                        TotalPriceServiceImpl totalPriceService,
-                        RestTemplate restTemplate,
-                        TokenResponse tokenResponse) {
+    public EmailServiceImpl(BasketService basketService,
+                            MakeOrderService makeOrderService,
+                            RestTemplate restTemplate,
+                            TokenResponse tokenResponse) {
         this.basketService = basketService;
         this.makeOrderService = makeOrderService;
-        this.deliveryService = deliveryService;
-        this.totalPriceService = totalPriceService;
         this.restTemplate = restTemplate;
         this.tokenResponse = tokenResponse;
     }
 
+    @Override
     public void sendOrderStatusEmailToCustomer() {
         BasketDto basket = basketService.getBasketDto();
         List<MakeOrder> orderDto = makeOrderService.getAllActiveOrders();

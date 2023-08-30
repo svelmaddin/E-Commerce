@@ -5,10 +5,11 @@ import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.delivery.City;
 import az.sariyevtech.ecommerce.model.delivery.DeliveryModel;
 import az.sariyevtech.ecommerce.repository.DeliveryRepository;
+import az.sariyevtech.ecommerce.services.DeliveryService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DeliveryServiceImpl {
+public class DeliveryServiceImpl implements DeliveryService {
     private final TokenResponse tokenResponse;
     private final DeliveryRepository deliveryRepository;
 
@@ -17,6 +18,7 @@ public class DeliveryServiceImpl {
         this.deliveryRepository = deliveryRepository;
     }
 
+    @Override
     public void addAddress(DeliveryDto dto) {
         DeliveryModel d = new DeliveryModel();
         d.setCustomerId(tokenResponse.getUserId());
@@ -28,7 +30,9 @@ public class DeliveryServiceImpl {
         deliveryRepository.save(d);
     }
 
+    @Override
     public DeliveryModel getById(Long id) {
         System.out.println("Delivery Id : " + id);
-        return deliveryRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with given id : " + id));}
+        return deliveryRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with given id : " + id));
+    }
 }
