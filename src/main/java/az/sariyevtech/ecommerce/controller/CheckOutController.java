@@ -13,11 +13,11 @@ public class CheckOutController {
     private final BasketService basketService;
     private final EmailService emailServiceImpl;
 
-    public CheckOutController(BasketService basketService, EmailService emailServiceImpl) {
+    public CheckOutController(BasketService basketService,
+                              EmailService emailServiceImpl) {
         this.basketService = basketService;
         this.emailServiceImpl = emailServiceImpl;
     }
-
 
     @GetMapping("/")
     public ResponseEntity<BasketResponse> getBasket(@RequestParam(name = "gift") boolean gift,
