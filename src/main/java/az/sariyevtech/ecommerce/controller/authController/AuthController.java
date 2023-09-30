@@ -33,13 +33,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request));
     }
 
-    //forShops
-//    @PostMapping("/register/shops")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<TokenResponseDto> registerShop(@RequestBody CreateShopRequest request) {
-//        return ResponseEntity.ok(authService.registerStore(request));
-//    }
-
     @PostMapping("/user")
     public ResponseEntity<User> getValidate(@RequestBody AccessToken tokenResponse) {
         return ResponseEntity.ok(userService.findUserByEmail(tokenResponse));

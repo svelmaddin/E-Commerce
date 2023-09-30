@@ -17,14 +17,16 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
     private final BasketService basketService;
     private final MakeOrderService makeOrderService;
+    private final UserService userService;
     private final RestTemplate restTemplate;
 
     public EmailServiceImpl(BasketService basketService,
                             MakeOrderService makeOrderService,
-                            RestTemplate restTemplate,
+                            UserService userService, RestTemplate restTemplate
                             ) {
         this.basketService = basketService;
         this.makeOrderService = makeOrderService;
+        this.userService = userService;
         this.restTemplate = restTemplate;
     }
 
@@ -41,8 +43,8 @@ public class EmailServiceImpl implements EmailService {
                 .totalPrice(basket.getIntermediatePrice())
                 .discount(basket.getDiscount())
                 .orderStatus(orderProcessStatus)
-                .customerId("tokenResponse.getUserId()")
-                .customerName("elmaddin")
+                .customerId(userService.currentUser().getId())
+                .customerName(userService.currentUser().getName())
                 .build();
         final String URL = "http://localhost:8084/email/emailSendToCustomer";
         try {

@@ -1,5 +1,6 @@
 package az.sariyevtech.ecommerce.services.impl;
 
+import az.sariyevtech.ecommerce.dto.authDto.TokenResponseDto;
 import az.sariyevtech.ecommerce.dto.basket.BasketDto;
 import az.sariyevtech.ecommerce.dto.request.CreateBasketRequest;
 import az.sariyevtech.ecommerce.dto.response.BasketResponse;
@@ -21,25 +22,24 @@ import java.util.stream.Collectors;
 @Service
 public class BasketServiceImpl implements BasketService {
     private final BasketRepository basketRepository;
-    private final TokenResponse tokenResponse;
+    private final UserService userService;
     private final DeliveryService deliveryService;
     @Autowired
     private MakeOrderService orderService;
     private final TotalPriceService totalPriceService;
 
     public BasketServiceImpl(BasketRepository basketRepository,
-                             TokenResponse tokenResponse,
-                             DeliveryService deliveryService,
+                             UserService userService, DeliveryService deliveryService,
                              TotalPriceService totalPriceService) {
         this.basketRepository = basketRepository;
-        this.tokenResponse = tokenResponse;
+        this.userService = userService;
         this.deliveryService = deliveryService;
         this.totalPriceService = totalPriceService;
     }
 
     @Override
     public void addProductToBasket(boolean giftPackage, Long deliveryId) {
-        BasketModel fromDb = basketRepository.findByCustomerId(tokenResponse.getUserId());
+        BasketModel fromDb = basketRepository.findByCustomerId(userService.currentUser().getId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
         double totalOrderPrice = orders.stream()
                 .mapToDouble(MakeOrder::getTotalPrice)
@@ -69,12 +69,12 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public BasketModel findByUserId() {
-        return basketRepository.findByCustomerId(tokenResponse.getUserId());
+        return basketRepository.findByCustomerId(userService.currentUser().getId());
     }
 
     @Override
     public BasketResponse getBasket() {
-        BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
+        BasketModel basketModel = basketRepository.findByCustomerId(userService.currentUser().getId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
         Set<OrderCheckOutResponse> outResponse = orders.stream().map(this::convert).collect(Collectors.toSet());
         return BasketResponse.builder()
@@ -87,7 +87,7 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public BasketDto getBasketDto() {
-        BasketModel basketModel = basketRepository.findByCustomerId(tokenResponse.getUserId());
+        BasketModel basketModel = basketRepository.findByCustomerId(userService.currentUser().getId());
         List<MakeOrder> orders = orderService.getAllActiveOrders();
         Set<OrderCheckOutResponse> outResponse = orders.stream().map(this::convert).collect(Collectors.toSet());
         return BasketDto.builder()

@@ -31,21 +31,20 @@ public class OrderServiceImpl implements OrderService {
     private final RestTemplate restTemplate;
     private final OrderRepository repository;
     private final OrderConverter converter;
-    private final TokenResponse tokenResponse;
     private final ProductService productService;
+    private final UserService userService;
     private final StoreService storeService;
 
     public OrderServiceImpl(RestTemplate restTemplate,
                             OrderRepository repository,
                             OrderConverter converter,
-                            TokenResponse tokenResponse,
                             ProductService productService,
-                            StoreService storeService) {
+                            UserService userService, StoreService storeService) {
         this.restTemplate = restTemplate;
         this.repository = repository;
         this.converter = converter;
-        this.tokenResponse = tokenResponse;
         this.productService = productService;
+        this.userService = userService;
         this.storeService = storeService;
     }
 
@@ -64,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> findUserOrders() {
-        var userId = tokenResponse.getUserId();
+        var userId = userService.currentUser().getId();
         return repository.findByCustomerId(userId).stream()
                 .map(converter::toDto).collect(Collectors.toList());
     }
@@ -73,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDto createOrder(OrderCreateRequest request) {
         final ProductDto product = productService.viewProduct(request.getProductId());
-        final var customerId = tokenResponse.getUserId();
+        final var customerId = userService.currentUser().getId();
         final OrderModel order = OrderModel.builder()
                 .customerId(customerId)
                 .productId(request.getProductId())
@@ -94,9 +93,6 @@ public class OrderServiceImpl implements OrderService {
         return converter.toDto(orderFromDb);
     }
 
-    public void addProductToBasket() {
-
-    }
 
     public Double calculateTotalPrice(Long productId, int count, DeliveryLoc loc) {
         final ProductDto product = productService.viewProduct(productId);
@@ -121,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto updateOrder(Long id, OrderDto request) {
-        OrderModel order = repository.findByIdAndCustomerId(id, tokenResponse.getUserId())
+        OrderModel order = repository.findByIdAndCustomerId(id, userService.currentUser().getId())
                 .orElseThrow(() -> new OrderNotFoundException(ORDER_NOT_FOUND + id));
 
         if (order.getOrderStatus().equals(OrderStatus.ORDER_PROCESSING)

@@ -22,8 +22,4 @@ public class EcommerceApplication {
         return new ModelMapper();
     }
 
-    @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
 }

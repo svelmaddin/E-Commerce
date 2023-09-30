@@ -60,31 +60,4 @@ public class AuthService {
                 .userDto(userService.getUser(request.getEmail()))
                 .build();
     }
-
-//    public TokenResponseDto registerStore(CreateShopRequest request) {
-//        storeService.createShop(request);
-//        Authentication auth = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-//        return TokenResponseDto.builder()
-//                .accessToken(tokenGenerator.generateToken(auth))
-//                .userDto(userService.getUser(request.getEmail()))
-//                .build();
-//    }
-
-//    public UserDto getUserByToken(AccessToken tokenResponse) {
-//        return UserDto.builder()
-//                .id()
-//                .name()
-//                .surname()
-//                .build();
-//    }
-//     String id,
-//        String email,
-//        String name,
-//        String surname,
-//        String phoneNumber,
-//        Role role,
-//        Gender gender,
-//        boolean active,
-//        byte[] profilePhoto
 }

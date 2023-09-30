@@ -18,13 +18,15 @@ public class MakeOrderServiceImpl implements MakeOrderService {
     private BasketService basketService;
     private final ProductService productService;
     private final MakeOrderRepository makeOrderRepository;
+    private final UserService userService;
 
     public MakeOrderServiceImpl(
                                 ProductService productService,
-                                MakeOrderRepository makeOrderRepository
-    ) {
+                                MakeOrderRepository makeOrderRepository,
+                                UserService userService) {
         this.productService = productService;
         this.makeOrderRepository = makeOrderRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class MakeOrderServiceImpl implements MakeOrderService {
         MakeOrder orderDb = MakeOrder.builder()
                 .productId(productId)
                 .name(product.getName())
-                .userId("")
+                .userId(userService.currentUser().getId())
                 .count(count)
                 .totalDiscount(totalDiscount)
                 .totalPrice(totalPrice)

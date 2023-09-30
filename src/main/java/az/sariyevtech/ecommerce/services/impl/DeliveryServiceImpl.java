@@ -9,18 +9,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
-    private final TokenResponse tokenResponse;
+    private final UserService userService;
     private final DeliveryRepository deliveryRepository;
 
-    public DeliveryServiceImpl(TokenResponse tokenResponse, DeliveryRepository deliveryRepository) {
-        this.tokenResponse = tokenResponse;
+    public DeliveryServiceImpl(UserService userService, DeliveryRepository deliveryRepository) {
+        this.userService = userService;
         this.deliveryRepository = deliveryRepository;
     }
 
     @Override
     public void addAddress(DeliveryDto dto) {
         DeliveryModel d = new DeliveryModel();
-        d.setCustomerId(tokenResponse.getUserId());
+        d.setCustomerId(userService.currentUser().getId());
         d.setCustomerFullName(dto.getCustomerFullName());
         d.setCity(City.valueOf(dto.getCity()));
         d.setZipCode(dto.getZipCode());
