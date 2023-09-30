@@ -9,7 +9,6 @@ import az.sariyevtech.ecommerce.exception.ProductNotFoundException;
 import az.sariyevtech.ecommerce.model.product.ProductDescription;
 import az.sariyevtech.ecommerce.model.product.ProductModel;
 import az.sariyevtech.ecommerce.repository.ProductRepository;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.ProductService;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +24,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final ProductConverter productConverter;
     private final StoreServiceImpl storeServiceImpl;
-    private final TokenResponse tokenResponse;
 
     public ProductServiceImpl(ProductRepository repository,
                               ProductConverter productConverter,
-                              StoreServiceImpl storeServiceImpl,
-                              TokenResponse tokenResponse
+                              StoreServiceImpl storeServiceImpl
     ) {
         this.repository = repository;
         this.productConverter = productConverter;
         this.storeServiceImpl = storeServiceImpl;
-        this.tokenResponse = tokenResponse;
     }
 
     //forUsers and salesManager
@@ -61,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     //for salesManager
     @Override
     public List<ProductDtoList> getStoreProducts() {
-        return repository.findByStoreUserId(tokenResponse.getUserId())
+        return repository.findByStoreUserId("")
                 .stream().map(productConverter::convertForList).collect(Collectors.toList());
     }
 

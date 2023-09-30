@@ -1,7 +1,6 @@
 package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.delivery.DeliveryDto;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.delivery.City;
 import az.sariyevtech.ecommerce.model.delivery.DeliveryModel;
 import az.sariyevtech.ecommerce.repository.DeliveryRepository;

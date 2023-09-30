@@ -8,8 +8,6 @@ import az.sariyevtech.ecommerce.exception.StoreNotFoundException;
 import az.sariyevtech.ecommerce.model.store.StoreDetails;
 import az.sariyevtech.ecommerce.model.store.StoreModel;
 import az.sariyevtech.ecommerce.repository.StoreRepository;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
-import az.sariyevtech.ecommerce.services.BasketService;
 import az.sariyevtech.ecommerce.services.StoreService;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +19,18 @@ import static az.sariyevtech.ecommerce.util.ErrorMessages.STORE_NOT_FOUND;
 @Service
 public class StoreServiceImpl implements StoreService {
     private final StoreRepository storeRepository;
-    private final TokenResponse tokenResponse;
     private final StoreConverter storeConverter;
 
     public StoreServiceImpl(StoreRepository storeRepository,
-                            TokenResponse tokenResponse,
                             StoreConverter storeConverter
     ) {
         this.storeRepository = storeRepository;
-        this.tokenResponse = tokenResponse;
         this.storeConverter = storeConverter;
     }
 
     @Override
     public StoreModel getCurrentUserStore() {
-        return storeRepository.findByUserId(tokenResponse.getStoreId()).orElseThrow();
+        return storeRepository.findByUserId("").orElseThrow();
     }
 
     @Override

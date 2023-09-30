@@ -4,7 +4,6 @@ import az.sariyevtech.ecommerce.dto.basket.BasketDto;
 import az.sariyevtech.ecommerce.dto.request.CreateBasketRequest;
 import az.sariyevtech.ecommerce.dto.response.BasketResponse;
 import az.sariyevtech.ecommerce.dto.response.OrderCheckOutResponse;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.basket.BasketModel;
 import az.sariyevtech.ecommerce.model.basket.TotalPrice;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;

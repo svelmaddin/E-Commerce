@@ -2,7 +2,6 @@ package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.basket.BasketDto;
 import az.sariyevtech.ecommerce.dto.email.OrderStatusEmail;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.model.order.OrderStatus;
 import az.sariyevtech.ecommerce.services.BasketService;
@@ -19,16 +18,14 @@ public class EmailServiceImpl implements EmailService {
     private final BasketService basketService;
     private final MakeOrderService makeOrderService;
     private final RestTemplate restTemplate;
-    private final TokenResponse tokenResponse;
 
     public EmailServiceImpl(BasketService basketService,
                             MakeOrderService makeOrderService,
                             RestTemplate restTemplate,
-                            TokenResponse tokenResponse) {
+                            ) {
         this.basketService = basketService;
         this.makeOrderService = makeOrderService;
         this.restTemplate = restTemplate;
-        this.tokenResponse = tokenResponse;
     }
 
     @Override
@@ -44,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
                 .totalPrice(basket.getIntermediatePrice())
                 .discount(basket.getDiscount())
                 .orderStatus(orderProcessStatus)
-                .customerId(tokenResponse.getUserId())
+                .customerId("tokenResponse.getUserId()")
                 .customerName("elmaddin")
                 .build();
         final String URL = "http://localhost:8084/email/emailSendToCustomer";

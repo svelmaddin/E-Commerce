@@ -12,7 +12,6 @@ import az.sariyevtech.ecommerce.model.order.DeliveryLoc;
 import az.sariyevtech.ecommerce.model.order.OrderModel;
 import az.sariyevtech.ecommerce.model.order.OrderStatus;
 import az.sariyevtech.ecommerce.repository.OrderRepository;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.services.OrderService;
 import az.sariyevtech.ecommerce.services.ProductService;
 import az.sariyevtech.ecommerce.services.StoreService;

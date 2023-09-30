@@ -6,7 +6,6 @@ import az.sariyevtech.ecommerce.repository.TotalPriceRepository;
 import az.sariyevtech.ecommerce.services.TotalPriceService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class TotalPriceServiceImpl implements TotalPriceService {

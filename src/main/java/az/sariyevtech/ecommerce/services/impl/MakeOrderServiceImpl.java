@@ -2,7 +2,6 @@ package az.sariyevtech.ecommerce.services.impl;
 
 import az.sariyevtech.ecommerce.dto.orderDto.MakeOrderDto;
 import az.sariyevtech.ecommerce.dto.productDto.ProductDto;
-import az.sariyevtech.ecommerce.dto.response.TokenResponse;
 import az.sariyevtech.ecommerce.model.order.MakeOrder;
 import az.sariyevtech.ecommerce.repository.MakeOrderRepository;
 import az.sariyevtech.ecommerce.services.BasketService;
@@ -17,15 +16,13 @@ import java.util.List;
 public class MakeOrderServiceImpl implements MakeOrderService {
     @Autowired
     private BasketService basketService;
-    private final TokenResponse tokenResponse;
     private final ProductService productService;
     private final MakeOrderRepository makeOrderRepository;
 
-    public MakeOrderServiceImpl(TokenResponse tokenResponse,
+    public MakeOrderServiceImpl(
                                 ProductService productService,
                                 MakeOrderRepository makeOrderRepository
     ) {
-        this.tokenResponse = tokenResponse;
         this.productService = productService;
         this.makeOrderRepository = makeOrderRepository;
     }
@@ -42,7 +39,7 @@ public class MakeOrderServiceImpl implements MakeOrderService {
         MakeOrder orderDb = MakeOrder.builder()
                 .productId(productId)
                 .name(product.getName())
-                .userId(tokenResponse.getUserId())
+                .userId("")
                 .count(count)
                 .totalDiscount(totalDiscount)
                 .totalPrice(totalPrice)
@@ -54,7 +51,7 @@ public class MakeOrderServiceImpl implements MakeOrderService {
 
     @Override
     public List<MakeOrder> getAllActiveOrders() {
-        return makeOrderRepository.findByActiveTrueAndUserId(tokenResponse.getUserId());
+        return makeOrderRepository.findByActiveTrueAndUserId("");
     }
 
     private MakeOrderDto convert(MakeOrder db) {
